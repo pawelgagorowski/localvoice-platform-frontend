@@ -1,0 +1,9 @@
+{
+    "apiUrl": "http://localhost:8080",
+    "features": {
+      "voicebot": true,
+      "connectedApps": false,
+      "permissions": false
+    }
+  }
+  

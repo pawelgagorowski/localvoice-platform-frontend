@@ -1,0 +1,29 @@
+$body-bg: #F2F4F4 !default;
+$zindex-fixed: 1030 !default;
+$zindex-loader: $zindex-fixed !default;
+$loader-backdrop-bg: $body-bg !default;
+$loader-backdrop-opacity: 0.6 !default;
+
+.sys-loading-wrapper {
+  position: relative !important;
+}
+
+.sys-loading {
+  position: absolute;
+  margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $zindex-loader;
+  background: rgba($loader-backdrop-bg, $loader-backdrop-opacity);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &.is-fullscreen {
+    position: fixed;
+  }
+}
