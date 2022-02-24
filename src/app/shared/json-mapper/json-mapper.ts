@@ -54,13 +54,13 @@ export function JsonProperty<T>(metadata?: MapperMetadata<T> | string): ReflectD
     throw new Error(`index.ts: meta data in Json property is undefined. meta data: ${metadata}`);
   }
 
-  return Reflect.metadata(JSON_META_DATA_KEY, decoratorMetaData);
+  return Reflect.metadata(JSON_META_DATA_KEY, decoratorMetaData) as any;
 }
 
 /**
  * Recursively deserialize raw JSON object to model instances
  */
-export function deserialize<T>(Type: new () => T, json: any): T {
+export function deserialize<T>(Type: new () => T, json: any): T | undefined {
   if (hasAnyNullOrUndefined(Type, json) || !isObjectType(json)) {
     return undefined;
   }
@@ -89,8 +89,8 @@ export function deserialize<T>(Type: new () => T, json: any): T {
       return;
     }
 
-    if (isArrayType(propertyType) && isArrayType(value)) {
-      instance[key] = value.map((item: any) => deserialize(metadata.type, item));
+    if (isArrayType(propertyType) && isArrayType(value) && metadata.type) {
+      instance[key] = value.map((item: any) => deserialize(metadata.type!, item));
       return;
     }
 
@@ -173,8 +173,8 @@ export function toModel<T>(Type: new () => T, object: Partial<T>): T {
     }
 
     const propertyType = getTypeConstructor(instance, key);
-    if (isArrayType(propertyType) && isArrayType(value)) {
-      instance[key] = value.map((item: any) => toModel(metadata.type, item));
+    if (isArrayType(propertyType) && isArrayType(value) && metadata.type) {
+      instance[key] = value.map((item: any) => toModel(metadata.type!, item));
       return;
     }
 

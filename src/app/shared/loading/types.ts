@@ -11,7 +11,7 @@ export class SysLoadingConfig {
 
   style?: SysLoadingStyle;
 
-  target?: string | HTMLElement;
+  target?: null | HTMLElement;
 
   constructor(config: SysLoadingConfig) {
     this.name = config.name;

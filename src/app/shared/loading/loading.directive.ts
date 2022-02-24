@@ -11,23 +11,27 @@ type LoadingElement = HTMLElement & {
 };
 
 export const SysLoading: DirectiveOptions = {
-  bind(el: LoadingElement, binding) {
+  bind(element, binding) {
     const name = binding.arg || `sys-loading-${(LOADING_NEXT_ID += 1)}`;
-    el.instance = loadingService.create({
+    // const myEl: any = el;
+    const bindingElement: any = element;
+    bindingElement.instance = loadingService.create({
       name,
-      target: el,
+      target: element,
     });
 
     if (binding.value) {
-      el.instance.register();
+      bindingElement.instance.register();
     }
   },
-  update(el: LoadingElement, binding) {
+  update(element, binding) {
+    const bindingElement: any = element;
     if (binding.oldValue !== binding.value) {
-      binding.value ? el.instance.register() : el.instance.resolve();
+      binding.value ? bindingElement.instance.register() : bindingElement.instance.resolve();
     }
   },
-  unbind(el: LoadingElement) {
-    el.instance.remove();
+  unbind(element) {
+    const bindingElement: any = element;
+    bindingElement.instance.remove();
   },
 };

@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
     "target": "esnext",
     "module": "esnext",
-    // "strict": true,
+    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "sourceMap": true,
+    "outDir": "./dist/out-tsc",
     "baseUrl": ".",
     "types": [
       "webpack-env",
@@ -28,12 +29,13 @@
     ]
   },
   "include": [
+    "index.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx", 
-    "src/app/core/i18n/languages.js" ],
+    "src/app/core/i18n/languages.ts" ],
   "exclude": [
     "node_modules"
   ]

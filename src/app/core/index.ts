@@ -1,6 +1,11 @@
 import Vue from 'vue';
+import '../modules/loading';
+import '../modules/voicebot/lesson';
 import { navigationInitializer } from '~app/navigation';
+// import { SysModalPlugin } from '~app/shared/modal';
+import { SysToastPlugin } from '~app/shared/toast';
 import vuetify from '~app/shared/vuetify';
+import { LayoutLoader } from '~app/layout';
 import { appRoutes } from '../app.routes';
 import App from '../app.vue';
 import { api, apiInitializer, ApiPlugin } from './api';
@@ -13,16 +18,16 @@ import { router, RouterHistoryPlugin } from './router';
 import { store } from './store';
 
 // configuration
-// Vue.config.productionTip = !IS_DEV;
-// Vue.config.errorHandler = errorHandler;
+Vue.config.productionTip = !IS_DEV;
+Vue.config.errorHandler = errorHandler;
 const ConfigPlugin = ConfigPluginFactory({ store });
 
 // global plugins
 Vue.use(ConfigPlugin);
 Vue.use(ApiPlugin);
-// Vue.use(RouterHistoryPlugin(router));
-// Vue.use(TimezonePlugin);
-// Vue.use(SysToastPlugin);
+Vue.use(RouterHistoryPlugin(router));
+Vue.use(TimezonePlugin);
+Vue.use(SysToastPlugin);
 // Vue.use(SysModalPlugin);
 
 // routes
@@ -32,12 +37,15 @@ router.addRoutes(appRoutes);
 const configRequest = ConfigPlugin.init();
 // console.log('config po init', getConfig);
 
-// appInitializer.register(() => getConfig);
-appInitializer.register(() => {
-  console.log('register apiInitializer before');
-  navigationInitializer();
-  return configRequest.then((config) => apiInitializer(config));
-});
+const auth = configRequest.then((config) =>
+  import(/* webpackChunkName: "auth" */ '~app/modules/auth/module').then((m) => m.AuthModule(config, api))
+);
+
+appInitializer.register(() => configRequest);
+appInitializer.register(() => configRequest.then((config) => apiInitializer(config)));
+appInitializer.register(() => auth);
+appInitializer.register(() => auth.then((token) => (token ? navigationInitializer() : null)));
+appInitializer.register(LayoutLoader);
 
 export function bootstrap(elementOrSelector?: Element | string): Promise<void> {
   return appInitializer.resolve().then(() => {

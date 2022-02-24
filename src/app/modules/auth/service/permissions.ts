@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { store } from '~app/core/store';
 import { coerceArray } from '~app/shared';
 import { AuthPermission } from '../model';
@@ -8,7 +9,7 @@ export type PermissionsCheckMode = 'AND' | 'OR';
 export function checkAccess(
   permissions: AuthPermission[],
   required: AuthPermission | AuthPermission[],
-  mode: PermissionsCheckMode = 'AND',
+  mode: PermissionsCheckMode = 'AND'
 ): boolean {
   const array = coerceArray(required);
   if (!array.length) {
@@ -22,7 +23,7 @@ export function checkAccess(
 
 export function userHasAccess(
   required: AuthPermission | AuthPermission[],
-  mode: PermissionsCheckMode = 'AND',
+  mode: PermissionsCheckMode = 'AND'
 ): boolean {
   return checkAccess(store.getters[authGetters.getPermissions], required, mode);
 }

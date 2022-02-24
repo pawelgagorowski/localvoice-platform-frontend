@@ -1,15 +1,28 @@
-import { i18n } from '~app/core/i18n/marker';
+/* eslint-disable no-shadow */
+// import { i18n } from '~app/core/i18n/marker';
 
 export const defaultMessages: { [key: string]: string } = {
-  required: i18n.t('Field is required'),
-  minLength: i18n.t('The input is less than {requiredLength} characters long'),
-  matchWith: i18n.t('The value must match with "{name}" field value'),
-  email: i18n.t('The value is not a valid email address'),
-  min: i18n.t('The value must be greater than or equal {min}'),
-  max: i18n.t('The value must be less than or equal {max}'),
-  ipAddress: i18n.t('The value is not a valid IP address'),
-  bsDate: i18n.t('Invalid date'),
-  NOT_UNIQUE: i18n.t('Value must be unique'),
+  // required: i18n.t('Field is required'),
+  // minLength: i18n.t('The input is less than {requiredLength} characters long'),
+  // matchWith: i18n.t('The value must match with "{name}" field value'),
+  // email: i18n.t('The value is not a valid email address'),
+  // min: i18n.t('The value must be greater than or equal {min}'),
+  // max: i18n.t('The value must be less than or equal {max}'),
+  // ipAddress: i18n.t('The value is not a valid IP address'),
+  // bsDate: i18n.t('Invalid date'),
+  // NOT_UNIQUE: i18n.t('Value must be unique'),
+
+  required: 'Field is required',
+  minLength: 'The input is less than {requiredLength} characters long',
+  matchWith: 'The value must match with "{name}" field value',
+  email: 'The value is not a valid email address',
+  min: 'The value must be greater than or equal {min}',
+  max: 'The value must be less than or equal {max}',
+  ipAddress: 'The value is not a valid IP address',
+  bsDate: 'Invalid date',
+  NOT_UNIQUE: 'Value must be unique',
+  includeCourse: 'Value must include "course" word',
+  includeCategory: 'Value must include "category" word',
 };
 
 export interface ValidationError {
@@ -29,6 +42,16 @@ export interface ValidatorFactory {
 const isEmpty = (value: any): boolean => value == null || value.length === 0;
 
 export const required: ValidatorFn = (value: any) => (isEmpty(value) ? { type: 'required' } : null);
+
+export const includeCourseWord: ValidatorFn = (value: string) => {
+  const pattern = /course/i;
+  return value.match(pattern) ? null : { type: 'includeCourse' };
+};
+
+export const includeCategoryWord: ValidatorFn = (value: string) => {
+  const pattern = /category/i;
+  return value.match(pattern) ? null : { type: 'includeCategory' };
+};
 
 export const requiredIf: ValidatorFactory = (condition: (data: any) => boolean) => (value: any, data: any) =>
   condition(data) ? required(value) : null;

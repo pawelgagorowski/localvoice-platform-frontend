@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode';
 
 export interface AuthToken {
-  access: string;
-  refresh: string;
-  rememberMe: boolean;
-  userId: number;
+  accessToken: string;
+  refreshToken: string;
+  userId: string;
+  backendEnvironment: string;
 }
 
 export interface AuthJwtToken {
@@ -19,21 +19,22 @@ export interface AuthJwtToken {
   userLogin: string;
 }
 
+// TODO change it when it's done
 export function importAuthToken(response: string): AuthToken {
-  console.log('importAuthToken');
+  console.log('importAuthToken', response);
   const res = JSON.parse(response);
-  const jwt = jwtDecode<AuthJwtToken>(res.token);
+  const jwt = jwtDecode<AuthJwtToken>(res.accessToken);
 
   return {
-    access: res.token,
-    refresh: res.refreshToken,
-    rememberMe: res.rememberMe,
-    userId: parseInt(jwt.userId, 10),
+    accessToken: res.accessToken,
+    refreshToken: res.refreshToken,
+    userId: jwt.userId,
+    backendEnvironment: res.backendEnvironment,
   };
 }
 
 export function exportAuthToken(token: AuthToken): string {
   return JSON.stringify({
-    token,
+    ...token,
   });
 }

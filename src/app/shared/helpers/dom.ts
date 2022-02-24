@@ -11,8 +11,11 @@ export function getStyle(element: HTMLElement, styleName: keyof CSSStyleDeclarat
     styleName = 'cssFloat';
   }
   try {
-    const computed = document.defaultView.getComputedStyle(element, '');
-    return element.style[styleName] || computed ? computed[styleName] : null;
+    if (document.defaultView) {
+      const computed = document.defaultView.getComputedStyle(element, '');
+      return element.style[styleName] || computed ? computed[styleName] : null;
+    }
+    return null;
   } catch (e) {
     return element.style[styleName];
   }

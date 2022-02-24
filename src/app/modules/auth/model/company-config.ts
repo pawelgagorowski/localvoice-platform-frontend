@@ -1,12 +1,12 @@
 import { JsonProperty } from '~app/shared/json-mapper';
 
 export class CompanyConfig {
-  apiServer: string = undefined;
+  apiServer: string | undefined = undefined;
 
-  webServer: string = undefined;
+  webServer: string | undefined = undefined;
 
-  logoFile: string = undefined;
+  logoFile: string | undefined = undefined;
 
   @JsonProperty('ianaTimeZone')
-  timezone: string = undefined;
+  timezone: string | undefined = undefined;
 }

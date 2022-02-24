@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import SearchInput from './search-input.vue';
 
 export * from './group';

@@ -10,7 +10,9 @@
   >
     <the-header></the-header>
     <the-sidebar></the-sidebar>
-    <data-container />
+    <keep-alive>
+      <data-container />
+    </keep-alive>
     <the-footer></the-footer>
   </v-app>
 </template>

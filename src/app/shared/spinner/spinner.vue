@@ -40,7 +40,7 @@ export default Vue.extend({
       return this.strokeWidth || Math.abs(this.diameter / 10);
     },
 
-    strokeDashOffset(): number {
+    strokeDashOffset(): number | null {
       if (fallbackAnimation) {
         return this.strokeCircumference * 0.2;
       }

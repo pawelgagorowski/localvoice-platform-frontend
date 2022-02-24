@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { Module } from 'vuex';
 import { RootState } from '~app/core/store';
 import { actions } from './actions';

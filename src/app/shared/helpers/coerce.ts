@@ -21,3 +21,8 @@ export function isNumber(value: any): boolean {
   // '123hello' to be a valid number. Therefore we also check if Number(value) is NaN.
   return !Number.isNaN(Number(parseFloat(value as any))) && !Number.isNaN(Number(value));
 }
+
+export function coerceObject<T>(value?: T): T {
+  if (!value) return <T>{};
+  return isNullOrUndefined(value) ? <T>{} : value;
+}

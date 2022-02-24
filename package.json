@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@coreui/vue": "^3.0.4",
+    "amazon-cognito-identity-js": "^5.2.4",
     "axios": "^0.24.0",
     "axios-mock-adapter": "^1.20.0",
     "bootstrap-vue": "^2.21.2",
@@ -24,11 +25,14 @@
     "focus-visible": "^5.2.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "logrocket": "^2.1.3",
     "qs": "^6.10.2",
     "reflect-metadata": "^0.1.13",
     "slugify": "^1.6.4",
+    "@jest/types": "^27.5.1",
     "url-join": "^4.0.1",
     "uuid": "^8.3.2",
+    "vee-validate": "^3.4.14",
     "vue": "^2.6.11",
     "vue-i18n": "^8.26.8",
     "vue-meta": "^2.4.0",
@@ -42,8 +46,12 @@
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
-    "@types/jest": "24.0.19",
+    "@types/cross-storage": "^0.8.30",
+    "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.178",
+    "@types/url-join": "^4.0.1",
+    "@types/uuid": "^8.3.4",
+    "@types/webfontloader": "^1.6.34",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -51,7 +59,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "^4.5.0",
+    "@vue/cli-plugin-unit-jest": "^4.5.15",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-airbnb": "~5.0.2",
@@ -69,9 +77,24 @@
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.5.0",
     "typescript": "~4.1.5",
     "vue-cli-plugin-vuetify": "~2.4.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>",
+      "/home/some/path/"
+    ],
+    "modulePaths": [
+      "<rootDir>",
+      "/home/some/other/path"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
   }
 }

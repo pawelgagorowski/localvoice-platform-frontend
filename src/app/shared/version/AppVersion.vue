@@ -4,12 +4,13 @@
 
     <template v-if="backend">
       <strong>API:</strong>
-      v{{ backend.version }}
+      v{{ backend }}
     </template>
   </div>
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import { api } from '~app/core/api';
 import { version } from '../../../../package.json';
 
@@ -17,14 +18,12 @@ export interface VersionInfo {
   version: string;
 }
 
-export default {
+export default Vue.extend({
   name: 'AppVersion',
-  data(): { [key: string]: VersionInfo } {
-    return {
-      frontend: { version },
-      backend: null,
-    };
-  },
+  data: () => ({
+    frontend: { version },
+    backend: {},
+  }),
 
   created(): void {
     api
@@ -36,7 +35,7 @@ export default {
         }
       });
   },
-};
+});
 </script>
 
 <style lang="scss"></style>

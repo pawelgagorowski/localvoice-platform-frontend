@@ -7,13 +7,12 @@ import { ApiClient } from '~app/core/api';
 import { createUrl } from '~app/shared';
 import { AuthToken, importAuthToken, TokenStorage } from '../model';
 
-const LOGIN_PATH = '/login.aspx';
-const LOGOUT_PATH = '/logout.aspx';
+const LOGIN_PATH = '/signin.html';
 
 export const AuthInjectKey: InjectKey = 'authService';
 
 export class AuthService {
-  private token: Promise<AuthToken | null>;
+  private token: Promise<AuthToken | null> | undefined
 
   private tokenRefreshRequest: Promise<void> | undefined;
 
@@ -26,7 +25,6 @@ export class AuthService {
   }
 
   initialize(): Promise<AuthToken | null> {
-    console.log('AuthService class initialize');
     if (this.token) {
       return this.token;
     }
@@ -45,24 +43,19 @@ export class AuthService {
     return this.token;
   }
 
-  logout(): Promise<void> {
-    console.log('logout');
-    return this.api
-      .post(createUrl(window.location.host, LOGOUT_PATH), null, {
-        responseType: 'text',
-      })
-      .catch(() => undefined)
-      .then(() => this.storage.clear())
-      .finally(() => this.redirectToLogin());
+  logout(): void {
+    this.redirectToLogin();
   }
 
   redirectToLogin() {
     const returnUrl = `?ReturnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
     window.location.href = this.loginUrl + returnUrl;
+    // router.push({ name: 'create-lesson' });
   }
 
   private refreshToken(): Promise<void> {
-    console.log('refreshtoken!!!!!!!!!!!!!');
+    if(!this.token) return Promise.reject()
+
     return this.token.then((token) => {
       if (!token) {
         throw Error('No refresh token');
@@ -71,14 +64,13 @@ export class AuthService {
       this.token = this.api
         .post<AuthToken>('/api/authentication/refresh', {
           userId: token.userId,
-          refreshToken: token.refresh,
+          refreshToken: token.refreshToken,
         })
         .then((res) => ({
           ...importAuthToken(JSON.stringify(res.data)),
-          rememberMe: token.rememberMe,
         }));
 
-      return this.token.then((authToken) => this.storage.store(authToken)).catch(() => this.logout());
+      return this.token.then((authToken) => this.storage.store(authToken as AuthToken)).catch(() => this.logout());
     });
   }
 
@@ -87,8 +79,8 @@ export class AuthService {
       return Promise.resolve(request);
     }
 
-    return this.token.then((token) => {
-      request.headers.Authorization = `Bearer ${token.access}`;
+    return this.token!.then((token) => {
+      request.headers!.Authorization = `Bearer ${token!.accessToken}`;
       return request;
     });
   }

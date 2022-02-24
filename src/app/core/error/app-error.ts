@@ -1,7 +1,7 @@
 import { i18n } from '~app/core/i18n/marker';
 
 export class AppError extends Error {
-  readonly status: number;
+  readonly status: number | undefined = undefined;
 
   readonly name: string = i18n.t('Unknown Error');
 

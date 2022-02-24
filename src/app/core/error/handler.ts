@@ -10,7 +10,7 @@ function convertHttpError(error: AxiosError): AppError {
   const { response } = error;
 
   if (!response) {
-    return new AppError(error.message, `${error.config.method.toUpperCase()} ${error.config.url}`);
+    return new AppError(error.message, `${error.config.method!.toUpperCase()} ${error.config.url}`);
   }
 
   const data = response.data || {};

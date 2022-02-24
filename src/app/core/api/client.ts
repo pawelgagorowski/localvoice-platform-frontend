@@ -6,14 +6,20 @@ import { Config } from '~app/core/config';
 import { collectionResponseInterceptor } from './response';
 
 export type ApiClient = AxiosInstance;
-
 export const api: ApiClient = axios.create({
   paramsSerializer(params) {
-    return QueryString.stringify(params, { arrayFormat: 'repeat' });
+    console.log('hello mfrom queryString', params);
+    // return QueryString.stringify(params, { arrayFormat: 'repeat' });
+    let result = '';
+    Object.keys(params).forEach((key) => {
+      result += `${key}=${encodeURIComponent(params[key])}&`;
+    });
+    console.log('result.substring(0, result.length - 1);', result.substring(0, result.length - 1));
+    return result.substring(0, result.length - 1);
   },
 });
 
-export function sortParams(sort?: Sort): { sorting: string } {
+export function sortParams(sort?: Sort): { sorting: string } | null {
   return sort && sort.active ? { sorting: `${sort.active},${sort.direction}` } : null;
 }
 

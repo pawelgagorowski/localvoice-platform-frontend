@@ -14,13 +14,10 @@
       <div class="d-flex flex-row justify-space-between align-center">
         <div>
           <v-btn href="https://store.vuetifyjs.com/products/octavia-admin-pro" target="_blank" depressed color="warning"
-            >Buy Octaviaaa</v-btn
+            >Localvoice</v-btn
           >
         </div>
         <div>
-          <!-- <strong class="text--disabled">
-            © UI Lib {{ new Date().getFullYear() }}-{{ new Date().getFullYear() + 1 }}
-          </strong> -->
           <app-version></app-version>
         </div>
       </div>
@@ -28,17 +25,22 @@
   </v-footer>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import { layoutGetters } from '../store';
+import AppVersion from '~app/shared/version/AppVersion.vue';
 
-export default {
+export default Vue.extend({
+  components: {
+    AppVersion,
+  },
   computed: {
     ...mapGetters({
       layoutState: layoutGetters.getState,
     }),
   },
-};
+});
 </script>
 
 <style lang="scss"></style>

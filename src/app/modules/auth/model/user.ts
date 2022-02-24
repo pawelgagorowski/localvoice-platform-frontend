@@ -2,35 +2,23 @@ import { JsonProperty } from '~app/shared';
 import { AuthPermission, AuthPermissionConverter } from './permission';
 
 export class AuthUser {
-  id: number = undefined;
+  @JsonProperty('sk')
+  id: number | undefined = undefined;
 
-  name: string = undefined;
+  firstName: string | undefined = undefined;
 
-  login: string = undefined;
+  email: string | undefined = undefined;
 
-  email: string = undefined;
+  language: string | undefined = undefined;
 
-  language: string = undefined;
-
-  @JsonProperty('ianaTimeZone')
-  timezone: string = undefined;
-
-  divisionId: number = undefined;
-
-  employeeId?: number = undefined;
-
-  posPlantId?: number = undefined;
-
-  roleIds: number[] = undefined;
+  @JsonProperty('business')
+  company: string | undefined = undefined;
 
   @JsonProperty({
     converter: { fromJson: AuthPermissionConverter.fromJson },
     excludeToJson: true,
   })
-  permissions: AuthPermission[] = [];
+  permissions: AuthPermission[] | [] = [];
 
-  @JsonProperty('messengerAutostart')
-  messengerAutoStart: boolean = undefined;
-
-  readonly forcePasswordChange: boolean = undefined;
+  timezone: string | undefined = undefined;
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-constructor */
+/* eslint-disable no-shadow */
 import { AxiosResponse } from 'axios';
 import { api, ApiClient } from '~app/core/api';
 

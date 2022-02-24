@@ -1,0 +1,39 @@
+$toast-padding-x: 12px;
+
+.toast {
+    position: relative;
+  }
+  
+  .toast-header {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    border-bottom: 0;
+    background-color: transparent;
+  }
+  
+  .b-toast {
+    .toast {
+      .toast-body {
+        display: flex;
+        align-items: flex-start;
+      }
+  
+      .toast-content {
+        align-self: center;
+        padding-right: $toast-padding-x * 1.2;
+      }
+  
+      .toast-title {
+        font-size: 20px;
+        margin-bottom: map-get($spacers, 1);
+      }
+  
+      .toast-icon {
+        font-size: 1.5rem;
+        margin-right: $toast-padding-x;
+        margin-top: rem-calc(1);
+      }
+    }
+  }
+  

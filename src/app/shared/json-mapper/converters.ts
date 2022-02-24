@@ -1,12 +1,15 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-param-reassign */
+/* eslint-disable array-callback-return */
 import { v4 as uuidv4 } from 'uuid';
 import { Converter } from './json-mapper';
 import { hasOwn, isNullOrUndefined, isObjectType } from './utils';
 
 export const dateIsoConverter: Converter = {
-  fromJson(isoDate: string): Date {
+  fromJson(isoDate: string): Date | null {
     return isoDate ? new Date(isoDate) : null;
   },
-  toJson(date: Date): string {
+  toJson(date: Date): string | null {
     return date ? date.toISOString() : null;
   },
 };
@@ -15,7 +18,7 @@ export const timestampConverter: Converter = {
   fromJson(data: number): Date {
     return new Date(data);
   },
-  toJson(date: Date): number {
+  toJson(date: Date): number | null {
     return date && date.getTime ? date.getTime() : null;
   },
 };
@@ -77,7 +80,7 @@ export const identityMapConverter = (key = 'id', property?: string): Converter =
         if (isNullOrUndefined(v)) {
           throw Error(`Array contains null/undefined values`);
         }
-        return identityConverter(key).toJson(v);
+        return identityConverter(key).toJson!(v);
       });
     },
   };

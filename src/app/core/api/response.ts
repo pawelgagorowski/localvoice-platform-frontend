@@ -6,13 +6,21 @@ export interface ApiCollectionResponse<T = any> {
   data: T[];
 }
 
-export function collectionResponseInterceptor(response: AxiosResponse): AxiosResponse | Promise<AxiosResponse> {
-  if (response.headers['x-total-count']) {
-    response.data = {
-      total: parseInt(response.headers['x-total-count'], 10) || 0,
-      data: response.data,
-    } as ApiCollectionResponse;
-  }
+export interface ResponseMessage<T = any> {
+  message: T;
+}
 
-  return response;
+export function collectionResponseInterceptor(responseMessage: AxiosResponse): AxiosResponse | Promise<AxiosResponse> {
+  let response;
+  console.log('responseMessage', responseMessage);
+  if (responseMessage.status < 400) {
+    response = {
+      data: responseMessage.data.message,
+    };
+  } else {
+    response = {
+      data: responseMessage.data.errorMessage,
+    };
+  }
+  return response as AxiosResponse | Promise<AxiosResponse>;
 }

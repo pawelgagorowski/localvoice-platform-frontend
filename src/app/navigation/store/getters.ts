@@ -9,8 +9,11 @@ const createGetter = createGetterFactory<NavigationState, RootState>();
 export const getters = {
   getOrderedSidebarItems: createGetter((state) => {
     return state.ids.reduce<MenuItem[]>((acc, id) => {
-      acc.splice(Number(id), 0, state.entities[id]);
-      return acc;
+      if(state.entities[id]) {
+        acc.splice(Number(id), 0, state.entities[id]!);
+        return acc;
+      }
+      return acc
     }, [] as MenuItem[]);
   }),
 };

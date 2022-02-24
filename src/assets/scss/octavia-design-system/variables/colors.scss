@@ -33,8 +33,10 @@ $gradient-colors: (
   )
 );
 
+// @debug desaturate($color, $amount);
+
 $blue:    map-get($solid-colors, 'blue') !default;
-$dark-blue:    map-get($solid-colors, 'dark-blue') !default;
+$dark-blue: map-get($solid-colors, 'dark-blue') !default;
 $indigo:  map-get($solid-colors, 'indigo') !default;
 $purple:  map-get($solid-colors, 'purple') !default;
 $pink:    map-get($solid-colors, 'pink') !default;
@@ -45,11 +47,11 @@ $green:   map-get($solid-colors, 'green') !default;
 $slate:   map-get($solid-colors, 'slate') !default;
 
 // Generate gray base form purple
-$gray-base: desaturate($blue, 90);
+$gray-base: #B3C0CE  !default;
 
 $white:    #fff !default;
 $gray-100: #FAFBFB !default; // 5
- $grey-200: lighten($gray-base, 28) !default;
+$grey-200: lighten($gray-base, 28) !default;
 $gray-200: #F2F4F4 !default; // 4
 $gray-300: #E7EDF3 !default; // 3
 $gray-400: #B3C0CE  !default; // 2
@@ -59,7 +61,7 @@ $gray-700: #475F7B !default; // 1
 $gray-800: #304156 !default; // body text
 $gray-900: darken($gray-800, 10) !default;
 
-$black:    darken(desaturate($purple, 50), 40) !default;
+// $black:    darken(desaturate($purple, 50), 40) !default;
 
 
 $primary:       $blue !default;

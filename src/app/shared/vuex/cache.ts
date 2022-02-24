@@ -45,7 +45,7 @@ export function createCachedAction<S, R>(action: Action<S, R>, options: VuexCach
     const key = generateKey(payload);
     const { value, expiresIn } = cache[key] || {};
 
-    if (value && !isExpired(expiresIn)) {
+    if (expiresIn && !isExpired(expiresIn)) {
       return value;
     }
 

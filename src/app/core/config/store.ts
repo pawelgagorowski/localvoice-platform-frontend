@@ -42,12 +42,7 @@ const mutations = {
   setCompany: createMutation((state, config: any) => {
     const update: Partial<Config> = {
       companyLogo: config.logoFile,
-      iframeHost: state.overrideIframeHost ? state.legacyWebServer : config.webServer,
     };
-
-    if (!state.ignoreCompanyApiUrl) {
-      update.apiUrl = `//${config.apiServer}`;
-    }
 
     Object.assign(state, update);
   }),
@@ -56,6 +51,7 @@ const mutations = {
 const createGetter = createGetterFactory<Config, RootState>();
 const getters = {
   getState: createGetter((state) => state),
+  getBackendEnvironment: createGetter((state) => state.backendEnvironment),
   getApiUrl: createGetter((state) => state.apiUrl),
   hasFeature: createGetter((state) => (feature: FeatureName | FeatureName[]): boolean => {
     const arrayOfFeatures = coerceArray(feature);

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import Vue, { CreateElement, PropType, RenderContext, VNode } from 'vue';
 import { ValidationError } from './validators';
 
@@ -7,6 +8,7 @@ export const FormControlState = Vue.extend({
 
   props: {
     errors: { type: Array as PropType<ValidationError[]> },
+    image: { type: String },
     custom: {
       type: Object as PropType<{ [key: string]: string }>,
       default: () => ({}),
@@ -14,21 +16,32 @@ export const FormControlState = Vue.extend({
   },
 
   render(h: CreateElement, context: RenderContext): VNode | VNode[] {
-    let error: ValidationError;
+    let error: ValidationError | undefined;
+    let errors: ValidationError[];
+    let blobFile: File | undefined;
+
     if (context.props.errors) {
-      // eslint-disable-next-line prefer-destructuring
-      error = context.props.errors[0];
+      errors = context.props.errors;
+      error = errors[0];
       if (context.props.custom[error.type]) {
         error.message = context.props.custom[error.type];
       }
     }
+
+    if (context.props.image) {
+      blobFile = new File([], context.props.image);
+    }
+
+    // if(context.props.image) {}
     return context.scopedSlots.default({
       // for bootstrap-vue form components
       state: error ? false : null,
       // for custom components, eg. v-select
       invalid: !!error,
       // translated error message
-      message: error ? context.parent.$t(error.message, error.args) : null,
-    });
+      message: error ? error.message : null,
+
+      blobFile: blobFile || null,
+    }) as VNode | VNode[];
   },
 });

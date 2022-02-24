@@ -10,7 +10,7 @@ export function hasFeature(feature: FeatureName | FeatureName[]): boolean {
 }
 
 export function featureGuard(feature: FeatureName | FeatureName[]): NavigationGuard {
-  return (to, from, next) => next(hasFeature(feature) ? undefined : from);
+  return (to, from, next) => next(hasFeature(feature) ? undefined : (from as any));
 }
 
 export const FeatureDirective: DirectiveFunction = (el, binding, vnode) => {

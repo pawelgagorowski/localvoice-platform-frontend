@@ -1,77 +1,76 @@
-import { AxiosError } from 'axios';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import axios, { AxiosError } from 'axios';
 import { api } from '~app/core/api';
-import { hasFeature } from '~app/core/config';
-import { configMutations } from '~app/core/config/store';
 import { RootState } from '~app/core/store';
-// import { divisionMutations } from '~app/modules/division/store';
-// import { plantActions } from '~app/modules/plant';
-import { deserialize, serialize } from '~app/shared';
+import { deserialize, PictureTarget, S3Credentials } from '~app/shared';
 import { createActionFactory, createActionMap } from '~app/shared/vuex';
-import { AuthPermission, AuthUser, AuthUserPreferences, CompanyConfig } from '../model';
+import { AuthUser } from '../model';
 import { authMutations } from './mutations';
 import { AuthState, NAMESPACE } from './state';
 
 const createAction = createActionFactory<AuthState, RootState>();
 
 export const actions = {
-  fetchCompanyConfig: createAction(({ commit }) => {
-    return api
-      .get<CompanyConfig>('/api/account/me/company/configuration')
-      .then((res) => deserialize(CompanyConfig, res.data))
-      .then((config) => {
-        commit(configMutations.setCompany.namespaced, config, { root: true });
-        commit(authMutations.setCompanyConfig.local, config);
-      });
-  }),
-
   fetchUser: createAction(({ commit }) => {
     console.log('fetchUser action');
     return api
-      .get<AuthUser>('/api/account/me')
+      .get<AuthUser>('/api/user')
       .then((res) => {
+        console.log('data from user', res.data);
         const user = deserialize(AuthUser, res.data);
         commit(authMutations.setUser.local, user);
-        // TODO dependency inversion
-        // commit(divisionMutations.setCurrentId.namespaced, user.divisionId, { root: true });
       })
-      .catch((e: AxiosError) => {
-        if (e.response.status < 500) {
+      .catch((error: AxiosError) => {
+        if (error.response!.status < 500) {
           // eg. 404 = account removed
           return;
         }
-
-        throw e;
+        throw error;
       });
   }),
+  getS3Credentials: createAction(
+    ({ commit }, { pictureTarget, type }: { pictureTarget: PictureTarget; type: string }) => {
+      const params = {
+        target: pictureTarget,
+        type,
+      };
+      return api
+        .get<{ credentials: S3Credentials; fullPath: string }>('/api/s3Credentials', { params })
+        .then((response) => response.data);
+    }
+  ),
+  saveInS3: createAction(({ commit }, { credentials, file }: { credentials: S3Credentials; file: File }) => {
+    const formData = new FormData();
+    formData.append('Content-Type', file.type);
 
-  getUserFromAuth0Service: createAction(async ({ commit }, auth0CLient: any) => {
-    console.log('getUserFromAuth0Service');
-    console.log('auth0CLient', auth0CLient);
-    const user = await auth0CLient.getUser();
-    console.log('user w getUserFromAuth0Service', user);
-    commit(authMutations.setUser.local, user);
-  }),
+    Object.entries(credentials.fields).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formData.append('file', file);
+    console.log('formData', formData);
+    const { url } = credentials;
 
-  fetchPreferences: createAction(({ state, dispatch }) => {
-    const fetch: Promise<any> = dispatch(authActions.fetchUser, null, { root: true });
-
-    return fetch.then(() => {
-      const { user } = state;
-      const resolve: Promise<any>[] = [];
-
-      // if (user.posPlantId && hasFeature('userPosPlant')) {
-      //   resolve.push(dispatch(plantActions.resolve, { ids: [user.posPlantId] }, { root: true }));
-      // }
-
-      return Promise.all(resolve);
+    return new Promise((resolve, reject) => {
+      fetch(credentials.url, {
+        method: 'POST',
+        body: formData,
+      })
+        .then((data) => resolve(data))
+        .catch((error) => reject(error));
     });
   }),
-
-  savePreferences: createAction(({ commit }, payload: AuthUserPreferences) => {
-    return api
-      .put('/api/account/me', serialize(payload))
-      .then((res) => commit(authMutations.setUserPreferences.local, deserialize(AuthUserPreferences, res.data)));
-  }),
+  removeFromS3: createAction(
+    ({ commit }, { imagesSrc, pictureTarget }: { imagesSrc: string[]; pictureTarget: string }) => {
+      imagesSrc.forEach((imageSrc) => {
+        const pictureTargetArray = imageSrc.split('/');
+        const filename = pictureTargetArray[pictureTargetArray.length - 1];
+        const params = {
+          filename,
+          target: pictureTarget,
+        };
+        return api.delete('/api/images', { params }).then((response) => response.data);
+      });
+    }
+  ),
 };
-
 export const authActions = createActionMap<typeof actions, AuthState, RootState>(NAMESPACE, actions);

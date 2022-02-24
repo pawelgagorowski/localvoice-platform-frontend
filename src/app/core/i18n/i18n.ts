@@ -22,15 +22,17 @@ export const i18n = new VueI18n({
   formatFallbackMessages: true,
 });
 
-function updateLanguage(lang: string): string {
+function updateLanguage(lang: string): string | null {
   i18n.locale = lang;
-  document.querySelector('html').setAttribute('lang', lang.substr(0, 2));
+  const html = document.querySelector('html');
+  if (!html) return null;
+  html.setAttribute('lang', lang.substring(0, 2));
   return lang;
 }
 
 const loadedLanguages: string[] = [];
 
-export function setLanguage(lang: string): Promise<string> {
+export function setLanguage(lang: string): Promise<string | null> {
   if (!lang || !languageExist(lang)) {
     return Promise.resolve(i18n.locale);
   }
@@ -46,4 +48,4 @@ export function setLanguage(lang: string): Promise<string> {
   });
 }
 
-export const languageExist = (lang: string): boolean => languages.some((l) => l.id === lang);
+export const languageExist = (lang: string): boolean => languages.some((language) => language.id === lang);

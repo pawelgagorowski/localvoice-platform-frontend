@@ -14,7 +14,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'List of Lessons' }],
         },
-        component: () => import(/* webpackChunkName: "listOfLessons" */ './views/listOfLessons.vue'),
+        component: () => import(/* webpackChunkName: "listOfLessons" */ './structure/views/listOfLessons.vue'),
       },
       {
         path: 'create-lesson',
@@ -22,7 +22,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Lesson' }],
         },
-        component: () => import(/* webpackChunkName: "createLesson" */ './views/createLesson.vue'),
+        component: () => import(/* webpackChunkName: "createLesson" */ './lesson/views/createLesson.vue'),
       },
       {
         path: 'create-course',
@@ -30,7 +30,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Course' }],
         },
-        component: () => import(/* webpackChunkName: "createCourse" */ './views/createCourse.vue'),
+        component: () => import(/* webpackChunkName: "createCourse" */ './structure/views/structure.vue'),
       },
       {
         path: 'monthly-challenge',
@@ -38,7 +38,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'Monthly Challenge' }],
         },
-        component: () => import(/* webpackChunkName: "listOfLesson" */ './views/listOfLessons.vue'),
+        component: () => import(/* webpackChunkName: "listOfLesson" */ './structure/views/listOfLessons.vue'),
       },
     ],
   },

@@ -2,13 +2,13 @@
   <v-navigation-drawer
     v-model="layoutState.isSidebarVisible"
     color="dark"
+    :dark="true"
     :expand-on-hover="layoutState.isSidebarMinimized"
     :mini-variant="layoutState.isSidebarMinimized"
-    :dark="true"
     :disable-resize-watcher="false"
     :mobile-breakpoint="960"
     height="100%"
-    class="shadow-sm rounded-tr-lg rounded-br-lg"
+    class="shadow-sm rounded-tr-lg rounded-br-lg mySidebar"
     :floating="false"
     v-bind="$attrs"
     app
@@ -18,13 +18,13 @@
       class="h-100 rtl-ps-none ps scroll"
       style="height: 100%"
     >
-      <v-list dense nav>
+      <v-list dense nav dark>
         <v-list-item class="px-0">
           <v-list-item-avatar>
             <v-img src="@/assets/images/logo.svg" height="600px" />
           </v-list-item-avatar>
 
-          <v-list-item-title class="text-18 text-uppercase text-default">Octavia</v-list-item-title>
+          <v-list-item-title class="text-18 text-uppercase text-default">Localvoice</v-list-item-title>
           <v-scroll-x-transition>
             <v-btn icon @click.stop="changeSidebarSize">
               <v-tooltip v-if="!layoutState.isSidebarMinimized" right color="primary">
@@ -43,7 +43,7 @@
           </v-scroll-x-transition>
         </v-list-item>
       </v-list>
-      <v-list class="py-0 mt-10">
+      <v-list dark class="py-0 mt-10">
         <template v-for="(item, i) in sidebarItems">
           <base-item-group v-if="item" :key="`group-${i}`" :item="item"> </base-item-group>
         </template>

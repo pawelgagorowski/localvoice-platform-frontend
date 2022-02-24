@@ -35,7 +35,13 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'no-use-before-define': 'off',
-    'import/no-unresolved': 'off'
+    'import/no-unresolved': 'off',
+    "prefer-destructuring": ["error", {
+      "array": false,
+      "object": true
+    }, {
+      "enforceForRenamedProperties": false
+    }]
   },
   overrides: [
     {

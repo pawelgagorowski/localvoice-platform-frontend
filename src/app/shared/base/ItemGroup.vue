@@ -3,29 +3,23 @@
     v-model="listModel"
     :prepend-icon="item.icon"
     :sub-group="subGroup"
-    no-action
     flat
-    :active-class="` ${
-      isDark && verticalSidebarDrawerColor != 'white'
-        ? verticalSidebarDrawerColor + ' darken-1 white--text'
-        : 'grey lighten-4'
-    }`"
+    active-class="dark darken-1 white--text DUPA!!"
     class="pl-0"
+    dark
   >
-    <!-- :group="group" -->
-    <!-- text-gray-900 bg-gray-200 -->
     <template v-slot:activator>
-      <v-list-item-icon v-if="text" class="v-list-item__icon--text" v-text="computedText" />
+      <v-list-item-icon v-if="text" class="v-list-item__icon--text" dark v-text="computedText" />
 
-      <v-list-item-content>
-        <v-list-item-title class="text-14" v-text="item.title" />
+      <v-list-item-content dark>
+        <v-list-item-title dark class="text-14" v-text="item.title" />
       </v-list-item-content>
     </template>
 
     <template v-for="(child, i) in children">
-      <base-item-sub-group v-if="child.children" :key="`sub-group-${i}`" :item="child" class="pl-0" />
+      <base-item-sub-group v-if="child.children" :key="`sub-group-${i}`" dark :item="child" />
 
-      <base-item v-else :key="`item-${i}`" class="" :item="child" :text="false" />
+      <base-item v-else :key="`item-${i}`" :item="child" :text="false" />
     </template>
   </v-list-group>
 </template>
@@ -34,11 +28,10 @@
 // Utilities
 // eslint-disable-next-line import/no-extraneous-dependencies
 import kebabCase from 'lodash/kebabCase';
-import Themeable from 'vuetify/lib/mixins/themeable';
 
 export default {
   name: 'BaseItemGroup',
-  mixins: [Themeable],
+  // mixins: [Themeable],
 
   inheritAttrs: false,
   props: {
@@ -60,14 +53,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    verticalSidebarDrawerColor: {
-      type: String,
-      default: 'dark',
-    },
   },
   data() {
     return {
       listModel: 0,
+      verticalSidebarDrawerColor: 'dark',
     };
   },
 
@@ -116,5 +106,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

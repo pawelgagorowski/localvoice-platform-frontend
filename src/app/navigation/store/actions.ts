@@ -14,7 +14,10 @@ export const actions = {
     return Promise.resolve(getMenuItems()).then((items) => {
       let accessedItems = items;
       if (hasFeature('permissions')) {
-        accessedItems = items.filter((item) => userHasAccess(item.permissions, 'OR'));
+        accessedItems = items.filter((item) => {
+          if (item.permissions) return userHasAccess(item.permissions, 'OR');
+          return true;
+        });
       }
       commit(navigationMutations.setNavigation.local, accessedItems);
     });

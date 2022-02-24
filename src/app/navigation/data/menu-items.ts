@@ -7,7 +7,7 @@ export function getMenuItems() {
       title: 'Voicebot',
       icon: 'mdi-view-dashboard',
       group: 'voicebot',
-      permissions: [AuthPermission.BATCH],
+      permissions: [AuthPermission.VOICEBOT],
       children: [
         {
           title: 'List of Lessons',

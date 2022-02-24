@@ -1,4 +1,10 @@
-import Vue from 'vue';
+import { PluginObject } from 'vue/types/umd';
 import AppVersion from './AppVersion.vue';
 
-Vue.component(AppVersion.name, AppVersion);
+export const AppVersionPlugin: PluginObject<void> = {
+  install(Vue) {
+    console.log('hello from AppVersionPlugin');
+    Vue.component(AppVersion.name, AppVersion);
+  },
+  component: AppVersion,
+};

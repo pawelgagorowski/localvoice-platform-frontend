@@ -1,6 +1,6 @@
 import { RouteConfig } from 'vue-router';
 import { NotFound, RouterView } from '~app/core/router';
-import { voicebotRoutes } from '~app/modules/voicebot';
+import { voicebotRoutes } from '~app/modules/voicebot/routes';
 
 export const appRoutes: RouteConfig[] = [
   {
@@ -21,11 +21,29 @@ export const appRoutes: RouteConfig[] = [
               breadcrumb: [{ name: 'Chatbot' }, { name: 'List of Lessons' }],
             },
             component: () =>
-              import(/* webpackChunkName: "listOfLesson" */ '~app/modules/voicebot/views/listOfLessons.vue'),
+              import(/* webpackChunkName: "listOfLesson" */ '~app/modules/voicebot/structure/views/listOfLessons.vue'),
           },
         ],
       },
     ],
+  },
+  {
+    path: '/session',
+    component: RouterView,
+    name: 'session',
+    redirect: '/session/sign-in',
+    children: [
+      {
+        path: 'sign-in',
+        name: 'sign-in',
+        component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue'),
+      },
+    ],
+  },
+  {
+    path: '/sign-in',
+    name: 'sign-in',
+    component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue'),
   },
   {
     path: '*',

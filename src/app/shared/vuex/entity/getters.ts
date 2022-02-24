@@ -6,7 +6,7 @@ export function createGettersFactory<T>() {
   function createGetters(entityStateGetter?: (state: any) => EntityState<T>): EntityGetters<T, any> {
     const getIds = (state: EntityState<T>) => state.ids;
     const getEntities = (state: EntityState<T>) => state.entities;
-    const getAll = (state: EntityState<T>) => state.ids.map((id) => state.entities[id]);
+    const getAll = (state: EntityState<T>): T[] => state.ids.map((id) => state.entities[id]) as T[];
     const getTotal = (state: EntityState<T>) => getIds(state).length;
 
     if (!entityStateGetter) {

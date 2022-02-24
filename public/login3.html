@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <script src="https://unpkg.com/vue@next" defer></script>
+</head>
+<body>
+    <style>
+        .page-wrap {
+        background-color: #fff !important;
+        display: flex;
+        align-items: center;
+        padding: 40px 1rem;
+        height: 100%;
+        min-height: 100vh;
+      }
+      
+      .localvoice-padding {
+        padding: 0 5% !important;
+      }
+      
+      .localvoice-sign-in-button {
+        background-color: #086fbe !important;
+        color: #fff;
+        padding: 20px !important;
+      }
+      
+      .session-form-hold {
+        width: 100%;
+        max-width: 490px;
+        margin: 0 auto;
+        padding: 10px;
+      }
+      
+      .localvoice-shadow {
+        box-shadow: rgba(47, 60, 74, 0.18) 0px 8px 32px, rgba(47, 60, 74, 0.02) 0px 8px 16px !important;
+      }
+      
+      .session-form-hold img {
+        width: 230px;
+        margin-bottom: 25px;
+      }
+      
+      .localvoice-sign-in-options {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 300;
+        font-size: 1.1rem;
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+      
+      .localvoice-weight-header {
+        font-weight: 400;
+      }
+      
+      .localvoice-header {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 300;
+        font-size: 1.5rem;
+        margin-top: 10px;
+        margin-bottom: 20px;
+      }
+
+      .login-form {
+        box-shadow: 0 0 25px rgba(103,103,103,.16);
+        padding-top: 30px;
+        padding-bottom: 30px; 
+    }
+    
+    .btn-action {
+        background-color: #ced4da;
+        border-radius: 0.125rem;
+        font-size: 1.093rem;
+    }
+    
+    body {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 400;
+        font-size: 0.875rem;
+        text-align: left;
+        color: #212529;
+        line-height: 1.5;
+    }
+    
+    img {
+        width: 220px;
+    }
+    
+    .container {
+        margin-top: 10vh;
+    }
+    
+    h2 {
+        font-size: 1.53125rem
+    }
+    
+    h4 {
+        font-size: 1.09375rem
+    }
+    
+    .font-weight-light {
+        font-weight: 300 !important;
+    }
+    
+    .font-weight-normal {
+        font-weight: 400 !important;
+    }
+        </style>
+      </head>
+      <body>
+        <div id="app">
+          <v-app>
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                  <div class="session-form-hold">
+                    <v-card class="localvoice-shadow p-10">
+                      <v-card-text class="text-center">
+                        <v-row class="mb-16">
+                          <h5 class="mb-10 mx-auto localvoice-header">
+                            <span class="localvoice-weight-header">Logowanie</span> do aplikacji Localvoice
+                          </h5>
+                          <img src="./alexa.png" class="mx-auto align-center justify-center" />
+                        </v-row>
+              
+                        <div class="localvoice-padding">
+                          <v-text-field label="Email" color="#1C7AC3" light />
+                          <v-text-field
+                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show ? 'text' : 'password'"
+                            name="input-10-2"
+                            label="Password"
+                            value="Pa"
+                            color="#1C7AC3"
+                            light
+                            @click:append="show = !show"
+                          ></v-text-field>
+                        </div>
+                        <v-btn class="mb-4 localvoice-sign-in-button" block>Zaloguj się</v-btn>
+                        <v-row>
+                          <h6 class="localvoice-sign-in-options mx-auto">
+                            kliknij jeśli <router-link to="/session/reset">nie pamiętasz hasła</router-link> lub
+                            <router-link to="/session/sign-up">nie masz konta </router-link>
+                          </h6>
+                        </v-row>
+                      </v-card-text>
+                    </base-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </v-app>
+</body>
+</html>

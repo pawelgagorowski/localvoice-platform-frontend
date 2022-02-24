@@ -1,9 +1,11 @@
 {
-    "apiUrl": "http://localhost:8080",
+    "apiUrl": "http://localhost:3000",
+    "environment": "test",
+    "backendEnvironment": "test",
     "features": {
       "voicebot": true,
+      "chatbot": true,
       "connectedApps": false,
       "permissions": false
-    }
   }
-  
+}

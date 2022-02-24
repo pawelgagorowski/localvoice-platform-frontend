@@ -26,7 +26,7 @@ export class RouterHistory {
     }
 
     router.afterEach((to) => {
-      this.addStep(to.fullPath, to.meta.historyMarker || to.name);
+      if (to && to.meta) this.addStep(to.fullPath, to.meta.historyMarker || to.name);
     });
   }
 

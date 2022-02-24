@@ -16,13 +16,13 @@ interface SysLoadingProps {
 
 interface SysLoadingRef {
   componentRef: Vue & SysLoadingProps;
-  style: SysLoadingStyle;
+  style: SysLoadingStyle | undefined;
   target: HTMLElement;
   times: number;
 }
 
 export class LoadingService {
-  private _context: { [key: string]: SysLoadingRef } = {};
+  private _context: { [key: string]: SysLoadingRef | undefined } = {};
 
   constructor() {
     this.create({
@@ -38,7 +38,7 @@ export class LoadingService {
 
     this._context[cfg.name] = {
       times: 0,
-      style: cfg.style,
+      style: cfg.style || undefined,
       target: cfg.target as HTMLElement,
       componentRef: new SysLoadingComponent({
         el: document.createElement('div'),
@@ -54,12 +54,12 @@ export class LoadingService {
     }
 
     const context = this._context[name];
-    if (context.times === 0) {
+    if (context && context.times === 0) {
       this._showLoader(context);
     }
-    context.times += times < 1 ? 1 : times;
+    context!.times += times < 1 ? 1 : times;
 
-    return context.times;
+    return context!.times;
   }
 
   resolve(name = SYS_LOADING_MAIN, times = 1): number {
@@ -69,15 +69,15 @@ export class LoadingService {
 
     const context = this._context[name];
     times = times < 1 ? 1 : times;
-    if (context.times > 0) {
+    if (context && context.times > 0) {
       times = context.times - times;
       context.times = times < 0 ? 0 : times;
     }
 
-    if (context.times === 0) {
-      this._hideLoader(context);
+    if (context!.times === 0) {
+      this._hideLoader(context!);
     }
-    return context.times;
+    return context!.times;
   }
 
   resolveAll(name = SYS_LOADING_MAIN): void {
@@ -86,8 +86,8 @@ export class LoadingService {
     }
 
     const context = this._context[name];
-    context.times = 0;
-    this._hideLoader(context);
+    context!.times = 0;
+    this._hideLoader(context!);
   }
 
   remove(name: string): void {
@@ -96,10 +96,10 @@ export class LoadingService {
     }
 
     const context = this._context[name];
-    this._hideLoader(context).then(() => {
-      const mask = context.componentRef.$el;
+    this._hideLoader(context!).then(() => {
+      const mask = context!.componentRef.$el;
       mask && mask.parentNode && mask.parentNode.removeChild(mask);
-      context.componentRef && context.componentRef.$destroy();
+      context!.componentRef && context!.componentRef.$destroy();
       this._context[name] = undefined;
       delete this._context[name];
     });
@@ -137,11 +137,15 @@ export class LoadingService {
   }
 
   private _createNamespace(name: string): SysLoadingNamespace {
+    if (!this._context[name]) {
+      throw Error(`No loader created with name '${name}'`);
+    }
+
     const context = this._context[name];
 
     return {
       get times(): number {
-        return context.times;
+        return context!.times;
       },
       register: (count?: number): number => this.register(name, count),
       resolve: (count?: number): number => this.resolve(name, count),

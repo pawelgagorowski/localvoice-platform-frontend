@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* istanbul ignore file */
 import 'focus-visible';
 import 'reflect-metadata';
@@ -9,11 +10,13 @@ let timer = Date.now();
 import(/* webpackChunkName: "core" */ './app/core')
   .then(({ bootstrap }) => bootstrap('#app'))
   .then(() => {
-    const splash: HTMLElement = document.querySelector('#splash');
-    splash.addEventListener('transitionend', () => {
-      splash.parentElement.removeChild(splash);
-    });
-    // // show splash screen for at least 500ms (remove if you don't like this behavior)
-    timer = 1000 - (Date.now() - timer);
-    setTimeout(() => splash.classList.add('hide'), timer >= 0 ? timer : 0);
+    const splash: HTMLElement | null = document.querySelector('#splash');
+    if (splash && splash.parentElement) {
+      splash.addEventListener('transitionend', () => {
+        splash.parentElement!.removeChild(splash);
+      });
+      // // show splash screen for at least 500ms (remove if you don't like this behavior)
+      timer = 1500 - (Date.now() - timer);
+      setTimeout(() => splash.classList.add('hide'), timer >= 0 ? timer : 0);
+    }
   });

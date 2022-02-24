@@ -3,14 +3,15 @@ import { formatDate, now } from './date';
 import { timezone } from './timezone';
 
 export interface TimezonePlugin {
-  readonly current: string;
-  now(): Date;
+  readonly current: string | null;
+  now(): any;
 }
 
 export const TimezonePlugin: PluginFunction<void> = (Vue) => {
   const value: TimezonePlugin = {
-    get current() {
-      return timezone.current;
+    get current(): string | null {
+      if(timezone.current) return timezone.current;
+      return null
     },
     now,
   };

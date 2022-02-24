@@ -13,33 +13,38 @@ const dateLocales: { [key: string]: Locale } = {
 };
 
 /** Current time in user's timezone. */
-export function now(): Date {
-  return utcToZonedTime(new Date(), timezone.current);
+export function now(): Date | null {
+  if(timezone.current) return utcToZonedTime(new Date(), timezone.current);
+  return null;
 }
 
-export function toUtc(date: Date | string | number): Date {
-  return zonedTimeToUtc(date, timezone.current);
+export function toUtc(date: Date | string | number): Date | null {
+  if(timezone.current) return zonedTimeToUtc(date, timezone.current);
+  return null;
 }
 
-export function toUtcString(date: Date | string | number): string {
-  return toUtc(date).toISOString();
+export function toUtcString(date: Date | string | number): string | null{
+  if(date) return toUtc(date)!.toISOString();
+  return null;
 }
 
-export function formatDate(date: Date, format = 'PP', options?: OptionsWithTZ): string {
+export function formatDate(date: Date, format = 'PP', options?: OptionsWithTZ): string | null {
   return date
     ? dateFnsFormat(date, format, {
         locale: dateLocales[i18n.locale],
-        timeZone: timezone.current,
+        timeZone: timezone.current || null,
         ...options,
       })
     : null;
 }
 
 export const dateZonedConverter: Converter = {
-  fromJson(date: string): Date {
-    return date ? utcToZonedTime(date, timezone.current) : null;
+  fromJson(date: string): Date | null {
+    if(timezone.current ) return date ? utcToZonedTime(date, timezone.current) : null;
+    return null;
   },
-  toJson(date: Date): string {
-    return date ? zonedTimeToUtc(date, timezone.current).toISOString() : null;
+  toJson(date: Date): string | null{
+    if(timezone.current) return date ? zonedTimeToUtc(date, timezone.current).toISOString() : null;
+    return null;
   },
 };

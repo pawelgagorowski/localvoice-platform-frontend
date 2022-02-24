@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { api } from '../api';
 
-export const timezone: { current: string } = Vue.observable({
+export const timezone: { current: string | null } = Vue.observable({
   current: null,
 });
 

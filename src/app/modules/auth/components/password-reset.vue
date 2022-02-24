@@ -159,7 +159,7 @@ export default Vue.extend({
         },
       }),
 
-      error: null,
+      error: '',
       messages: {
         EMAIL_UNDEFINED: i18n.t('Sorry, your account has no email address defined. Please contact administrator.'),
         ACCOUNT_NOT_EXIST: i18n.t('Sorry, there is no account with given username.'),
@@ -172,7 +172,7 @@ export default Vue.extend({
   watch: {
     '$route.query.token': {
       handler() {
-        this.error = null;
+        this.error = "";
         this.success = false;
       },
     },
@@ -211,7 +211,7 @@ export default Vue.extend({
   },
   methods: {
     requestLink(): any {
-      this.error = null;
+      this.error = '';
       this.success = false;
 
       if (!this.requestForm.validate()) {
@@ -228,12 +228,12 @@ export default Vue.extend({
             this.success = true;
           })
           .catch((error: AxiosError) => {
-            if (error.response.status === 409) {
+            if (error.response!.status === 409) {
               this.error = 'EMAIL_UNDEFINED';
               return;
             }
 
-            if (error.response.status === 400) {
+            if (error.response!.status === 400) {
               this.error = 'ACCOUNT_NOT_EXIST';
               return;
             }
@@ -247,7 +247,7 @@ export default Vue.extend({
     },
 
     changePassword(): any {
-      this.error = null;
+      this.error = '';
       this.success = false;
       console.log('changePass');
       if (!this.changeForm.validate()) {
@@ -258,25 +258,21 @@ export default Vue.extend({
       return (
         this.$api
           // .put('/api/account/password', {
-          .put('dupa', {
-            token: this.$route.query.token,
-            password: this.changeForm.data.password,
-          })
-          .then(() => {
-            this.changeForm.reset();
-            this.success = true;
-          })
-          .catch((error: AxiosError) => {
-            if (error.response.status === 401) {
-              this.error = 'TOKEN_EXPIRED';
-              return;
-            }
+          // .then(() => {
+          //   this.changeForm.reset();
+          //   this.success = true;
+          // })
+          // .catch((error: AxiosError) => {
+          //   if (error.response!.status === 401) {
+          //     this.error = 'TOKEN_EXPIRED';
+          //     return;
+          //   }
 
-            throw error;
-          })
-          .finally(() => {
-            this.loading = false;
-          })
+          //   throw error;
+          // })
+          // .finally(() => {
+          //   this.loading = false;
+          // })
       );
     },
   },

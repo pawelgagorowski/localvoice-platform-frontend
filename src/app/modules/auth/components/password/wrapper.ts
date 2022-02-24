@@ -72,17 +72,17 @@ export default Vue.extend({
       passwordService
         .change(this.form.data.current, this.form.data.password)
         .then(() => {
-          this.$toast.success(this.$t('Password changed'));
+          this.$toast.success('Password changed');
           this.$emit('success');
           this.reset();
         })
         .catch((err: AxiosError) => {
-          if (err.response.status !== 400) {
+          if (err.response!.status !== 400) {
             throw err;
           }
 
           // TODO(API): better error response
-          if (err.response.data.message.includes('Old password')) {
+          if (err.response!.data.message.includes('Old password')) {
             this.form.setCustomError('current', this.$t('Invalid password') as string);
             return;
           }
@@ -93,9 +93,9 @@ export default Vue.extend({
       e?.preventDefault();
 
       this.form.reset({
-        current: null,
-        password: null,
-        confirm: null,
+        current: undefined,
+        password: undefined,
+        confirm: undefined,
       });
     },
   },
@@ -109,7 +109,7 @@ export default Vue.extend({
           reset: this.reset,
         },
       },
-      this.$scopedSlots.default({
+      this.$scopedSlots.default!({
         form: this.form,
       }),
     );
