@@ -6,7 +6,8 @@ import '@/assets/scss/octavia-design-system/octavia-design-system.scss';
 import './spinner/spinner.scss';
 import './toast/toast.scss';
 
-console.log('hello from components.vue!!!!!!!!!');
+// import css
+import '@/assets/css/custom.css';
 
 // vendors
 import(/* webpackChunkName: "base" */ './vendors').then((m) => Vue.use(m.VendorsPlugin));
@@ -17,3 +18,5 @@ import(/* webpackChunkName: "sysdyne" */ './loading').then((m) => Vue.use(m.SysL
 import(/* webpackChunkName: "sysdyne" */ './spinner').then((m) => Vue.use(m.SysSpinnerPlugin));
 import(/* webpackChunkName: "base" */ './base').then((m) => Vue.use(m.BaseComponentsPlugin));
 import(/* webpackChunkName: "base" */ './drawer').then((m) => Vue.use(m.DrawerComponentsPlugin));
+import(/* webpackChunkName: "base" */ './fixedButton').then((m) => Vue.use(m.FixedButtonPlugin));
+import(/* webpackChunkName: "facebook" */ './facebook').then((m) => Vue.use(m.FacebookSDKPlugin));

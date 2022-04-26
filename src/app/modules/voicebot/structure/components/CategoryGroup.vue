@@ -42,7 +42,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
-        <span>Dodaj kategorię</span>
+        <span>{{ $t('voicebot.buttons.addCategory') }}</span>
       </v-tooltip>
     </v-col>
   </v-row>
@@ -75,17 +75,16 @@ export default Vue.extend({
     },
   },
   data: () => ({
-      loading: false,
-      maxAmountOfCategories: 12,
-    
+    loading: false,
+    maxAmountOfCategories: 12,
   }),
   computed: {
     ...mapGetters({
       layoutState: layoutGetters.getState,
     }),
     isMaxCategories() {
-      if(this.course.categories) return this.course.categories.length >= this.maxAmountOfCategories;
-      else return false;
+      if (this.course.categories) return this.course.categories.length >= this.maxAmountOfCategories;
+      return false;
     },
     backgroundForSlides() {
       const backgroundColor = this.layoutState.layoutMode === LayoutMode.WHITE ? '#fff' : '#242939';

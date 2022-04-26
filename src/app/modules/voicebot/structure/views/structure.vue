@@ -1,20 +1,13 @@
 <template>
   <div>
     <v-sheet v-sys-loading="loadingStatus" elevation="8" class="mb-10">
-      <div class="d-flex justify-start flex-wrap">
-        <v-btn class="ma-2" dark color="danger" @click="saveCourse()">
-          <v-icon>mdi-plus</v-icon>
-          zapisz strukturę kursu
-        </v-btn>
-        <div>
-          <v-btn class="ma-2" color="primary" @click="addCourseToTestingEnvironment()">
-            <v-icon>mdi-plus</v-icon> Dodaj kurs do wersji testowej
-          </v-btn>
-        </div>
-        <div>
-          <v-btn class="ma-2" color="success"> <v-icon>mdi-plus</v-icon> Dodaj kurs do wersji produkcyjnej </v-btn>
-        </div>
-      </div>
+      <fixed-button
+        :save-fn="saveCourseStructure"
+        :test-fn="addCourseStructureToTestingEnvironment"
+        :prod-fn="addCourseStructureToTestingEnvironment"
+        :buttons-text="buttonsText"
+        :is-fixed-button="false"
+      ></fixed-button>
       <course-carousel
         :courses="courses"
         @validation="validation"
@@ -33,15 +26,21 @@
         @savePicture="savePicture"
         @removePicture="removePicture"
         @updateStructure="updateStructure"
-        @removeCategory="removeCategory"
+        @removeCategory="comprehensivelyRemoveCategory"
         @addLesson="addLesson"
         @addCategory="addCategory"
         @insertLesson="insertLesson"
         @insertCategory="insertCategory"
-        @removeLesson="removeLesson"
+        @removeLesson="comprehensivelyRemoveLesson"
         @validation="validation"
       ></category-group>
     </v-sheet>
+    <fixed-button
+      :save-fn="saveCourseStructure"
+      :test-fn="addCourseStructureToTestingEnvironment"
+      :prod-fn="addCourseStructureToTestingEnvironment"
+      :buttons-text="buttonsText"
+    ></fixed-button>
   </div>
 </template>
 
@@ -49,14 +48,25 @@
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import { layoutGetters } from '~app/layout/store';
+import { loadingActions, loadingGetters } from '~app/modules/loading';
+import FixedButton from '~app/shared/fixedButton/fixedButton.vue';
+import { FormGroup } from '~app/shared/form';
+import {
+  StructureValidationForm,
+  objectKeys,
+  ValidationForm,
+  ValidationTarget,
+  coerceArray,
+  VoicebotButtonsText,
+} from '~app/shared';
+import { translate } from '~app/core/i18n';
+import { areExampleCorrect, fillUpValidationForm, deleteValidationFields } from '~app/shared/validation';
 import { voicebotActions, voicebotGetters } from '../store';
 import CategoryGroup from '../components/CategoryGroup.vue';
 import CourseCarousel from '../components/CourseCarousel.vue';
-import { objectKeys } from '~app/shared';
-import { FormGroup } from '~app/shared/form';
+
 import { CourseStructureModel } from '../models/courseStructure';
-import { loadingActions, loadingGetters } from '~app/modules/loading';
-import { ValidationForm } from '../types';
+import { router } from '~app/core/router';
 
 export default Vue.extend({
   metaInfo: {
@@ -65,12 +75,18 @@ export default Vue.extend({
   components: {
     CategoryGroup,
     CourseCarousel,
+    FixedButton,
   },
   data() {
     return {
       courseIndex: 0,
       validated: false,
-      validationForm: {} as ValidationForm<CourseStructureModel>,
+      validationForm: {} as StructureValidationForm<CourseStructureModel>,
+      buttonsText: {
+        save: translate('save'),
+        test: translate('voicebot.buttons.addStructureToTest'),
+        production: translate('voicebot.buttons.addStructureToProd'),
+      } as VoicebotButtonsText,
     };
   },
   computed: {
@@ -79,10 +95,6 @@ export default Vue.extend({
       courses: voicebotGetters.getStructure,
       loadingStatus: loadingGetters.getStructureLoadingStatus,
     }),
-    // backgroundForSlides() {
-    //   const backgroundColor = this.layoutState.layoutMode === LayoutMode.WHITE ? '#fff' : '#242939';
-    //   return backgroundColor;
-    // },
   },
   watch: {
     courseIndex: {
@@ -90,13 +102,18 @@ export default Vue.extend({
       handler(courseIndex: string) {
         let id: FormGroup<CourseStructureModel>;
         objectKeys(this.validationForm).forEach((course) => {
-          objectKeys(this.validationForm[course]).forEach((form) => {
-            id = this.validationForm[course][form] as FormGroup<CourseStructureModel>;
-            id.clearErrors();
+          objectKeys(this.validationForm[course]).forEach((target) => {
+            objectKeys(this.validationForm[course][target]).forEach((form) => {
+              id = this.validationForm[course][target][form] as FormGroup<CourseStructureModel>;
+              id.clearErrors();
+            });
           });
         });
-        this.validationForm = {};
-        this.validationForm[courseIndex] = {};
+        this.validationForm = {} as StructureValidationForm<CourseStructureModel>;
+        this.validationForm[courseIndex] = {} as ValidationForm<CourseStructureModel>;
+        [ValidationTarget.SAVE, ValidationTarget.TEST].forEach((target) => {
+          this.validationForm[courseIndex][target] = {};
+        });
       },
     },
   },
@@ -116,30 +133,83 @@ export default Vue.extend({
       removePicture: voicebotActions.removePicture,
       setLoadingStatus: loadingActions.addVoicebotStructureLoadingStatus,
     }),
+    comprehensivelyRemoveCategory(data: { courseIndex: number; categoryIndex: number; validationIds: string[] }) {
+      deleteValidationFields({
+        validationIds: coerceArray(data.validationIds),
+        validationForm: this.validationForm[this.courseIndex],
+      });
+      this.removeCategory({ courseIndex: data.courseIndex, categoryIndex: data.categoryIndex });
+    },
+    comprehensivelyRemoveLesson(data: {
+      courseIndex: number;
+      categoryIndex: number;
+      lessonIndex: number;
+      validationId: string;
+    }) {
+      deleteValidationFields({
+        validationIds: coerceArray(data.validationId),
+        validationForm: this.validationForm[this.courseIndex],
+      });
+      this.removeLesson({
+        courseIndex: data.courseIndex,
+        categoryIndex: data.categoryIndex,
+        lessonIndex: data.lessonIndex,
+      });
+    },
     changeCourseIndex(courseIndex: number) {
       this.courseIndex = courseIndex;
     },
-    saveCourse() {
-      console.log('saveCourse');
+    saveCourseStructure() {
+      console.log(
+        'areExampleCorrect',
+        areExampleCorrect({ validationForm: this.validationForm[this.courseIndex], target: ValidationTarget.SAVE })
+      );
     },
-    addCourseToTestingEnvironment() {
-      const course = this.validationForm[this.courseIndex];
-      let id: FormGroup<CourseStructureModel>;
-
-      objectKeys(course).forEach((key) => {
-        id = course[key];
-        id.validate();
+    addCourseStructureToTestingEnvironment() {
+      const result = areExampleCorrect({
+        validationForm: this.validationForm[this.courseIndex],
+        target: ValidationTarget.TEST,
       });
+      console.log('result', result);
+      if (!result.isCorrect)
+        // router.app.$toast.success(
+        //   `Before you add course structure to testing environment you have to: ${result.errorMessages}`
+        // );
+        router.app.$toast.success(this.$t('message.hello'));
+      else console.log('jest ok!!');
       this.linkCurrentCourseCategoriesAndLessons(this.courseIndex);
     },
-    validation(validation: { courseIndex: number; id: string; data: FormGroup<CourseStructureModel> }) {
-      if (!this.validationForm[validation.courseIndex]) this.validationForm[validation.courseIndex] = {};
-      if (!this.validationForm[validation.courseIndex][validation.id])
-        this.validationForm[validation.courseIndex][validation.id] = {} as FormGroup<CourseStructureModel>;
-      this.validationForm[validation.courseIndex][validation.id] = validation.data;
+    validation(validation: {
+      courseIndex: number;
+      id: string;
+      data: FormGroup<CourseStructureModel>;
+      targets: ValidationTarget[];
+    }) {
+      if (!this.validationForm[validation.courseIndex])
+        this.validationForm[validation.courseIndex] = {} as ValidationForm<CourseStructureModel>;
+      const validationForm = this.validationForm[validation.courseIndex];
+
+      fillUpValidationForm({
+        id: validation.id,
+        targets: validation.targets,
+        validationForm,
+        data: validation.data,
+      });
     },
   },
 });
+
+// function areExampleCorrect<T>(form: ValidationForm<T>, target: ValidationTarget): boolean {
+//   const lessons = form[target];
+//   let id: FormGroup<T>;
+//   let isAnyError = false;
+//   objectKeys(lessons).forEach((key) => {
+//     id = lessons[key];
+//     id.validate();
+//     if (id.isAnyError) isAnyError = true;
+//   });
+//   return !isAnyError;
+// }
 </script>
 
 <style scope>

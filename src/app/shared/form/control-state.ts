@@ -1,6 +1,7 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable prefer-destructuring */
 import Vue, { CreateElement, PropType, RenderContext, VNode } from 'vue';
-import { ValidationError } from './validators';
+import { ValidationError } from '../types';
 
 export const FormControlState = Vue.extend({
   name: 'FormControlState',

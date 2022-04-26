@@ -14,7 +14,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'List of Lessons' }],
         },
-        component: () => import(/* webpackChunkName: "listOfLessons" */ './structure/views/listOfLessons.vue'),
+        component: () => import(/* webpackChunkName: "listOfLessons" */ './lessonList/views/lessonList.vue'),
       },
       {
         path: 'create-lesson',
@@ -38,7 +38,7 @@ export const voicebotRoutes: RouteConfig[] = [
         meta: {
           breadcrumb: [{ name: 'Voicebot' }, { name: 'Monthly Challenge' }],
         },
-        component: () => import(/* webpackChunkName: "listOfLesson" */ './structure/views/listOfLessons.vue'),
+        component: () => import(/* webpackChunkName: "listOfLesson" */ './lessonList/views/lessonList.vue'),
       },
     ],
   },

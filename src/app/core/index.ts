@@ -53,6 +53,7 @@ export function bootstrap(elementOrSelector?: Element | string): Promise<void> {
       router,
       store,
       vuetify,
+      i18n,
       render: (h) => h(App),
     });
 

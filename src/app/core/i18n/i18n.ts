@@ -3,6 +3,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import { IS_DEV, PUBLIC_PATH } from '../env';
 import languagesConfig from './languages';
+import messages from './messages/index';
 
 export interface Language {
   id: string;
@@ -10,7 +11,7 @@ export interface Language {
 }
 
 export const languages = languagesConfig;
-export const defaultLanguage = languages[0].id;
+export const defaultLanguage = languages[1].id;
 
 Vue.use(VueI18n);
 
@@ -20,6 +21,7 @@ export const i18n = new VueI18n({
   silentFallbackWarn: true,
   silentTranslationWarn: !IS_DEV,
   formatFallbackMessages: true,
+  messages,
 });
 
 function updateLanguage(lang: string): string | null {
@@ -47,5 +49,12 @@ export function setLanguage(lang: string): Promise<string | null> {
     return updateLanguage(lang);
   });
 }
+
+export const translate = (key: string, arg?: VueI18n.Values) => {
+  if (!key) {
+    return '';
+  }
+  return i18n.t(key, arg);
+};
 
 export const languageExist = (lang: string): boolean => languages.some((language) => language.id === lang);

@@ -89,12 +89,6 @@ export type LessonListHeaders = {
   sortable?: string;
 };
 
-export type ValidationForm<T> = {
-  [key: string]: {
-    [key: string]: FormGroup<T>;
-  };
-};
-
 export type UpdateStructureOperation = {
   course(state: StructureState, indexes: StructureIndexes, attributeToUpdate: ObjectAttribute): void;
   category(state: StructureState, indexes: StructureIndexes, attributeToUpdate: ObjectAttribute): void;

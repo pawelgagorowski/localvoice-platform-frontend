@@ -6,11 +6,11 @@ export class LessonExercisesModel {
 
   chatExercise?: ChatExerciseModel | undefined = undefined;
 
-  sentenceExercise?: SentenceExerciseModel | undefined = undefined;
+  sentenceExercise: SentenceExerciseModel[] | undefined = undefined;
 
   lessonDescription: string | undefined = undefined;
 
   sentenceList: string[] | undefined = undefined;
 
-  translatedlessonDescription: string | undefined = undefined;
+  translatedLessonDescription: string | undefined = undefined;
 }

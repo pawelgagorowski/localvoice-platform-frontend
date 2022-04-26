@@ -1,7 +1,7 @@
 <template>
   <base-card class="px-5 pl-10">
     <v-card-title class="d-flex justify-space-between">
-      Kurs
+      {{ $t('voicebot.buttons.course') }}
       <div class="mt-4">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -9,7 +9,7 @@
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <span>Dodaj kurs</span>
+          <span>{{ $t('voicebot.buttons.addCourse') }}</span>
         </v-tooltip>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -28,7 +28,7 @@
               <v-icon>mdi-minus</v-icon>
             </v-btn>
           </template>
-          <span>Usuń kurs</span>
+          <span>{{ $t('voicebot.buttons.removeCourse') }}</span>
         </v-tooltip>
       </div>
       <div>
@@ -42,6 +42,7 @@
           <the-course
             :course="course"
             :course-index="index"
+            :number-of-categories="getNumberOfCategories(courseIndex)"
             @updateStructure="$emit('updateStructure', $event)"
             @savePicture="$emit('savePicture', $event)"
             @removePicture="$emit('removePicture', $event)"
@@ -79,6 +80,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       course: voicebotGetters.getCourse,
+      getNumberOfCategories: voicebotGetters.getNumberOfCategories,
     }),
   },
   methods: {

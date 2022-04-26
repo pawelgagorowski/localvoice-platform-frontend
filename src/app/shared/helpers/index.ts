@@ -3,3 +3,4 @@ export * from './dictionary';
 export * from './dom';
 export * from './lang';
 export * from './url';
+export * from './query';

@@ -5,8 +5,9 @@
         <v-text-field
           :value="course.subject"
           :error-messages="message"
-          label="Nazwa kursu w języku jakiego dotyczy kurs"
-          hint="Do nazwy kursu należy dodać słow 'Course'"
+          :label="$t('voicebot.labels.orginalCourseName')"
+          :hint="$t('voicebot.labels.orginalCourseNameHint')"
+          :placeholder="$t('voicebot.labels.orginalCourseNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               subject: $event,
@@ -20,8 +21,9 @@
         <v-text-field
           :value="course.translatedSubject"
           :error-messages="message"
-          hint="To musi być wyrażenie składające się z kilku słów"
-          label="Nazwa kursu w języku ojczystym"
+          :hint="$t('voicebot.labels.translatedCourseHint')"
+          :label="$t('voicebot.labels.translatedCourseName')"
+          :placeholder="$t('voicebot.labels.translatedCourseNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               translatedSubject: $event,
@@ -43,7 +45,7 @@
         :errors="form.errors.imageSrc"
       >
         <v-file-input
-          label="Dodaj zdjęcie"
+          :label="$t('voicebot.labels.courseFileInput')"
           :value="blobFile"
           :error-messages="message"
           @change="updatePicture($event, course.imageSrc)"
@@ -55,11 +57,11 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
-import { v4 as uuid } from 'uuid';
 import { FormControlState } from '~app/shared/form';
 import { CourseStructureModel } from '../models/courseStructure';
-import { createCourseForm } from '../validation/forms';
+import { createCourseForm, createNumberOfCategoriesForm } from '../validation/forms';
 import { FormValidationMixin } from '../validation/formValidation.mixin';
+import { ValidationTarget } from '~app/shared/types';
 
 export default Vue.extend({
   components: {
@@ -75,12 +77,19 @@ export default Vue.extend({
       type: Number,
       required: true,
     },
+    numberOfCategories: {
+      type: Number,
+      required: true,
+    },
   },
   data: () => {
     const form = createCourseForm();
+    const numberOfCategoriesForm = createNumberOfCategoriesForm();
     return {
       form,
+      numberOfCategoriesForm,
       validationId: '',
+      numberOfCategoriesValidationId: 'numberOfCategories',
     };
   },
   watch: {
@@ -88,11 +97,24 @@ export default Vue.extend({
       immediate: true,
       handler(course) {
         this.form.data = course;
-        this.validationId = uuid();
+        this.validationId = `course-${this.courseIndex}`;
         this.$emit('validation', {
           data: this.form,
           courseIndex: this.courseIndex,
           id: this.validationId,
+          targets: [ValidationTarget.TEST],
+        });
+      },
+    },
+    numberOfCategories: {
+      immediate: true,
+      handler(numberOfCategories: number) {
+        this.numberOfCategoriesForm.data = { numberOfCategories };
+        this.$emit('validation', {
+          data: this.numberOfCategoriesForm,
+          courseIndex: this.courseIndex,
+          id: this.numberOfCategoriesValidationId,
+          targets: [ValidationTarget.TEST],
         });
       },
     },

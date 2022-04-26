@@ -1,6 +1,8 @@
 /* eslint-disable import/no-cycle */
-import { coerceArray, hasOwn, objectKeys } from '../helpers';
-import { defaultMessages, ValidationError, ValidatorFn } from './validators';
+import VueI18n from 'vue-i18n';
+import { hasOwn, objectKeys } from '../helpers';
+import { ErrorTranscription, ValidationError, ValidatorFn } from '../types';
+import { defaultMessages } from './validators';
 
 export interface FormFieldConfig {
   validators?: ValidatorFn[];
@@ -12,7 +14,7 @@ export type FormGroupValidators<T> = { [key in keyof T]?: ValidatorFn[] };
 export type FormGroupErrors<T> = { [key in keyof T]?: ValidationError[] | null };
 
 // TODO generic form group composition
-export class FormGroup<T> {
+export class FormGroup<T extends unknown> {
   data: T = {} as T;
 
   validators: FormGroupValidators<T> = {};
@@ -22,6 +24,8 @@ export class FormGroup<T> {
   errors: FormGroupErrors<T> = {};
 
   isAnyError = false;
+
+  errorMessages: VueI18n.TranslateResult[] = [];
 
   get valid(): boolean {
     return !objectKeys(this.errors).some((key) => this.errors[key] !== null);
@@ -37,6 +41,8 @@ export class FormGroup<T> {
   }
 
   validate(): boolean {
+    this.isAnyError = false;
+    this.errorMessages = [];
     objectKeys(this.validators).forEach((key) => {
       const validators = this.validators[key];
       const res: ValidationError[] = [];
@@ -45,9 +51,13 @@ export class FormGroup<T> {
           const error = fn(this.data[key], this.data);
           if (error) {
             this.isAnyError = true;
-            error.message = defaultMessages[error.type];
+            const { type } = error;
+            const errorResult = defaultMessages[type as keyof ErrorTranscription](error.arg);
+            console.log('errorResult', errorResult);
+            error.message = errorResult.fieldMessage;
+            this.errorMessages.push(errorResult.toastMessage);
             res.push(error);
-          } else this.isAnyError = false;
+          }
         });
       }
 
@@ -55,7 +65,6 @@ export class FormGroup<T> {
     });
 
     this.validated = true;
-
     return this.valid;
   }
 
@@ -93,24 +102,6 @@ export class FormGroup<T> {
     this.validated = false;
     objectKeys(this.data).forEach((key) => {
       this.errors[key] = null;
-    });
-  }
-
-  setCustomError(key: keyof T, message: string) {
-    if (hasOwn(this.errors, key)) {
-      this.errors[key] = [{ type: 'custom', message } as ValidationError];
-    }
-  }
-
-  setServerErrors(errors: FormGroupErrors<T>) {
-    objectKeys(errors).forEach((key) => {
-      if (hasOwn(this.errors, key)) {
-        this.errors[key] = coerceArray(errors[key] as ValidationError[]).map((err) => ({
-          type: err.type,
-          message: defaultMessages[err.type],
-          args: err.args,
-        }));
-      }
     });
   }
 }

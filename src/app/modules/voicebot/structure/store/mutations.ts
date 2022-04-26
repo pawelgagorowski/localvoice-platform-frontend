@@ -4,8 +4,8 @@
 import Vue from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { createMutationFactory, createMutationMap } from '~app/shared/vuex';
-import { structureEntityAdapter, lessonsEntityAdapter, NAMESPACE, StructureState } from './state';
-import { LessonStructureModel, LessonSummaryModel } from '../models';
+import { structureEntityAdapter, NAMESPACE, StructureState } from './state';
+import { LessonStructureModel } from '../models';
 import { CourseStructureModel } from '../models/courseStructure';
 import { CategoryIndexes, CourseIndexes, LessonIndexes, StructureIndexes, UpdateStructureOperation } from '../types';
 import { CategoryStructureModel } from '../models/categoryStructure';
@@ -14,10 +14,6 @@ import { coerceArray, ObjectAttribute } from '~app/shared';
 const createMutation = createMutationFactory<StructureState>();
 
 export const mutations = {
-  setLessonsList: createMutation((state, payload: LessonSummaryModel[]) => {
-    lessonsEntityAdapter.addMany(payload, state.lessons.indexes);
-    state.lessons.lessonsList = payload;
-  }),
   setStructure: createMutation((state, payload: CourseStructureModel[]) => {
     structureEntityAdapter.addAll(payload, state.structure.indexes);
     state.structure.coursesList = payload;

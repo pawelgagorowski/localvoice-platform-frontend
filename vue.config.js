@@ -17,9 +17,16 @@ module.exports = {
   devServer: {
     clientLogLevel: 'warning',
     hot: true,
+
+    open: process.platform === 'darwin',
+    host: '0.0.0.0',
+    port: 8000,
+    https: true,
+    hotOnly: false,
+
     contentBase: 'dist',
     compress: true,
-    open: true,
+    // open: true,
     overlay: {
       warnings: false,
       errors: true,

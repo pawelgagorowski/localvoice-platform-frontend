@@ -12,7 +12,7 @@ const LOGIN_PATH = '/signin.html';
 export const AuthInjectKey: InjectKey = 'authService';
 
 export class AuthService {
-  private token: Promise<AuthToken | null> | undefined
+  private token: Promise<AuthToken | null> | undefined;
 
   private tokenRefreshRequest: Promise<void> | undefined;
 
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   private refreshToken(): Promise<void> {
-    if(!this.token) return Promise.reject()
+    if (!this.token) return Promise.reject();
 
     return this.token.then((token) => {
       if (!token) {

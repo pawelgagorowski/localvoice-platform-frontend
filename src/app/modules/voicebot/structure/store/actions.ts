@@ -2,7 +2,7 @@
 /* eslint-disable no-shadow */
 import { RootState, store } from '~app/core/store';
 import { createActionFactory, createActionMap } from '~app/shared/vuex';
-import { ObjectAttribute, PictureTarget, S3Credentials } from '~app/shared/types';
+import { PictureTarget, S3Credentials } from '~app/shared/types';
 import { authActions } from '~app/modules/auth/store';
 import { voicebotMutations } from './mutations';
 import { NAMESPACE, StructureState } from './state';
@@ -17,15 +17,11 @@ import structureApi from '../service/structure.api';
 import { voicebotGetters } from './getters';
 import { loadingActions } from '~app/modules/loading';
 import { arePositiveNumbers } from '~app/shared/helpers/numbers';
+import { getAttributesToUpdate, getAttributeToUpdate } from '~app/shared/helpers/attributesToUpdate';
 
 const createAction = createActionFactory<StructureState, RootState>();
 
 export const actions = {
-  fetchLessonsList: createAction(({ commit }, { pagination, sort, filter } = {}) => {
-    structureApi.getLessonsList().then((data) => {
-      commit(voicebotMutations.setLessonsList.local, data.data);
-    });
-  }),
   fetchStructure: createAction(({ commit }, { pagination, sort, filter } = {}) => {
     return structureApi.getStructure().then((data) => {
       commit(voicebotMutations.setStructure.local, data.data);
@@ -142,23 +138,3 @@ export const actions = {
 };
 
 export const voicebotActions = createActionMap<typeof actions, StructureState, RootState>(NAMESPACE, actions);
-
-export function getAttributesToUpdate<T, K>(value: Partial<T>, poosibleAttributesToUpdate: K[]): Partial<T> {
-  return Object.keys(value).reduce((acc, it) => {
-    if (poosibleAttributesToUpdate.indexOf(it as any) >= 0) {
-      acc[it as keyof T] = value[it as keyof T];
-    }
-    return acc;
-  }, {} as Partial<T>);
-}
-
-export function getAttributeToUpdate<T, K>(value: Partial<T>, poosibleAttributesToUpdate: K[]): ObjectAttribute {
-  return Object.keys(value).reduce((acc, it) => {
-    if (poosibleAttributesToUpdate.indexOf(it as any) >= 0) {
-      acc.key = it;
-      // @ts-expect-error rework it
-      acc.value = value[it];
-    }
-    return acc;
-  }, {} as ObjectAttribute);
-}

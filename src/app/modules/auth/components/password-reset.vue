@@ -155,7 +155,7 @@ export default Vue.extend({
           validators: [required],
         },
         confirm: {
-          validators: [required, matchWith('password')],
+          validators: [required, matchWith('password', 'matchWith')],
         },
       }),
 
@@ -172,7 +172,7 @@ export default Vue.extend({
   watch: {
     '$route.query.token': {
       handler() {
-        this.error = "";
+        this.error = '';
         this.success = false;
       },
     },
@@ -255,25 +255,23 @@ export default Vue.extend({
       }
 
       this.loading = true;
-      return (
-        this.$api
-          // .put('/api/account/password', {
-          // .then(() => {
-          //   this.changeForm.reset();
-          //   this.success = true;
-          // })
-          // .catch((error: AxiosError) => {
-          //   if (error.response!.status === 401) {
-          //     this.error = 'TOKEN_EXPIRED';
-          //     return;
-          //   }
+      return this.$api;
+      // .put('/api/account/password', {
+      // .then(() => {
+      //   this.changeForm.reset();
+      //   this.success = true;
+      // })
+      // .catch((error: AxiosError) => {
+      //   if (error.response!.status === 401) {
+      //     this.error = 'TOKEN_EXPIRED';
+      //     return;
+      //   }
 
-          //   throw error;
-          // })
-          // .finally(() => {
-          //   this.loading = false;
-          // })
-      );
+      //   throw error;
+      // })
+      // .finally(() => {
+      //   this.loading = false;
+      // })
     },
   },
 });

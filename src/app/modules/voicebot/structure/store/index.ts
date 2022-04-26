@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { store } from '~app/core/store';
 import { actions } from './actions';
 import { getters } from './getters';
@@ -11,8 +12,6 @@ store.registerModule(NAMESPACE, {
   mutations,
   getters,
 });
-
-console.log('hello from structure');
 
 export * from './state';
 export { voicebotGetters } from './getters';

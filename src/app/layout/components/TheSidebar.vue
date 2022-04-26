@@ -20,9 +20,9 @@
     >
       <v-list dense nav dark>
         <v-list-item class="px-0">
-          <v-list-item-avatar>
-            <v-img src="@/assets/images/logo.svg" height="600px" />
-          </v-list-item-avatar>
+          <!-- <v-list-item-avatar> -->
+          <v-img contain src="@/assets/localvoice.png" height="600px" />
+          <!-- </v-list-item-avatar> -->
 
           <v-list-item-title class="text-18 text-uppercase text-default">Localvoice</v-list-item-title>
           <v-scroll-x-transition>

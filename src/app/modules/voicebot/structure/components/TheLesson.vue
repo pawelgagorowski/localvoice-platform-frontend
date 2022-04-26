@@ -11,8 +11,8 @@
           :value="lesson.subject"
           :error-messages="message"
           clear-icon
-          hint="To musi być wyrażenie składające się z kilku słów"
-          label="Wyrażenie do nauki 1"
+          :label="$t('voicebot.labels.lessonName')"
+          :placeholder="$t('voicebot.labels.lessonNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               subject: $event,
@@ -28,8 +28,8 @@
         <v-text-field
           :value="lesson.translatedSubject"
           :error-messages="message"
-          hint="To musi być wyrażenie składające się z kilku słów"
-          label="Wyrażenie do nauki 1"
+          :label="$t('voicebot.labels.translatedLessonName')"
+          :placeholder="$t('voicebot.labels.translatedLessonNamePlaceholder')"
           class="mb-5"
           @input="
             $emit('updateStructure', {
@@ -51,7 +51,7 @@
         >
           <v-file-input
             v-if="lesson"
-            label="File input"
+            :label="$t('voicebot.labels.lessonFileInput')"
             flat
             :value="blobFile"
             :error-messages="message"
@@ -97,6 +97,7 @@
                   courseIndex,
                   categoryIndex,
                   lessonIndex,
+                  validationId,
                 })
               "
             >
@@ -112,11 +113,11 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
-import { v4 as uuid } from 'uuid';
 import { FormGroup, FormControlState } from '~app/shared/form';
 import { LessonStructureModel } from '../models';
 import { createLessonForm } from '../validation/forms';
 import { FormValidationMixin } from '../validation/formValidation.mixin';
+import { ValidationTarget } from '~app/shared';
 
 export default Vue.extend({
   name: 'TheLesson',
@@ -158,13 +159,20 @@ export default Vue.extend({
       immediate: true,
       handler(lesson) {
         this.form.data = lesson;
-        this.validationId = uuid();
+        this.validationId = `course-${this.courseIndex}-category-${this.categoryIndex}-course-${this.lessonIndex}`;
         this.$emit('validation', {
           data: this.form,
           courseIndex: this.courseIndex,
           id: this.validationId,
+          targets: [ValidationTarget.TEST],
         });
       },
+    },
+    validationId: {
+      handler(validationId) {
+        this.$emit('lessonValidationId', validationId);
+      },
+      immediate: true,
     },
   },
   methods: {

@@ -1,6 +1,7 @@
 import { lessonConverter } from '~app/modules/voicebot/lesson/service/converters';
 import { LessonExercisesDto } from '~app/modules/voicebot/lesson/types';
 import { LessonExercisesModel } from '~app/modules/voicebot/lesson/models/lessonExercises';
+import { FormGroup } from '~app/shared/form';
 
 describe('lessonConverter', () => {
   const fullInput: LessonExercisesDto = {
@@ -11,11 +12,13 @@ describe('lessonConverter', () => {
     translatedChatDescription: 'opis chatu',
     words: {
       wordOne: {
-        examplesForWord: [['fsdfsd']],
+        examplesForWord: [
+          ['Rzeczownik', 'cinema', 'when have you been in cinema?', 'kiedy byłeś w kinie?', null, null, false],
+        ],
         sentences: ['df'],
       },
       wordTwo: {
-        examplesForWord: [['word1Examples1', 'word1Examples', 'word1Examples']],
+        examplesForWord: [['Czasownik', 'work', 'do you work today?', 'pracujesz dzisiaj?', null, null, false]],
         sentences: ['df'],
       },
       lesson_description: 'lesson description',
@@ -33,16 +36,36 @@ describe('lessonConverter', () => {
         chatContent: ['polish1', 'polish2', 'polish3'],
         translatedChatContent: ['english1', 'english2', 'english3'],
       },
-      sentenceExercise: {
-        wordOne: {
-          exampleExercises: [['fsdfsd']],
+      sentenceExercise: [
+        {
+          sentence: 'wordOne',
+          sentenceExample: [
+            {
+              example: 'when have you been in cinema?',
+              translatedExample: 'kiedy byłeś w kinie?',
+              imageSrc: null,
+              isImage: false,
+              typeOfExample: 'Rzeczownik',
+              something: null,
+            },
+          ],
         },
-        wordTwo: {
-          exampleExercises: [['word1Examples1', 'word1Examples', 'word1Examples']],
+        {
+          sentence: 'wordTwo',
+          sentenceExample: [
+            {
+              example: 'do you work today?',
+              translatedExample: 'pracujesz dzisiaj?',
+              imageSrc: null,
+              isImage: false,
+              typeOfExample: 'Czasownik',
+              something: null,
+            },
+          ],
         },
-      },
+      ],
       lessonDescription: 'lesson description',
-      translatedlessonDescription: 'opis lekcji',
+      translatedLessonDescription: 'opis lekcji',
       sentenceList: ['wordOne', 'wordTwo'],
     };
     expect(lessonConverter.fromJson!(fullInput)).toEqual(expectedOutput);
@@ -57,18 +80,37 @@ describe('lessonConverter', () => {
         chatContent: ['polish1', 'polish2', 'polish3'],
         translatedChatContent: ['english1', 'english2', 'english3'],
       },
-      sentenceExercise: {
-        wordOne: {
-          exampleExercises: [['fsdfsd']],
+      sentenceExercise: [
+        {
+          sentence: 'wordOne',
+          sentenceExample: [
+            {
+              example: 'when have you been in cinema?',
+              translatedExample: 'kiedy byłeś w kinie?',
+              imageSrc: null,
+              isImage: false,
+              typeOfExample: 'Rzeczownik',
+              something: null,
+            },
+          ],
         },
-        wordTwo: {
-          exampleExercises: [['word1Examples1', 'word1Examples', 'word1Examples']],
+        {
+          sentence: 'wordTwo',
+          sentenceExample: [
+            {
+              example: '',
+              translatedExample: 'pracujesz dzisiaj?',
+              imageSrc: null,
+              isImage: false,
+              typeOfExample: 'Czasownik',
+              something: null,
+            },
+          ],
         },
-      },
+      ],
       lessonDescription: 'lesson description',
-      translatedlessonDescription: 'opis lekcji',
-      // 2x wordsTwo
-      sentenceList: ['wordTwo', 'wordTwo'],
+      translatedLessonDescription: 'opis lekcji',
+      sentenceList: ['wordOne', 'wordTwo'],
     };
     expect(lessonConverter.fromJson!(fullInput)).not.toEqual(notExpected);
     expect(lessonConverter.fromJson!(fullInput)).not.toEqual({});
@@ -84,11 +126,12 @@ describe('lessonConverter', () => {
         translatedChatDescription: '',
       },
       lessonDescription: '',
-      sentenceExercise: {},
+      sentenceExercise: [],
       sentenceList: [],
-      translatedlessonDescription: '',
+      translatedLessonDescription: '',
     };
     expect(lessonConverter.fromJson!({})).toEqual(notEmptyObject);
+    expect(lessonConverter.fromJson!(undefined)).toEqual(notEmptyObject);
   });
 
   it('should return partial output object', () => {
@@ -109,14 +152,10 @@ describe('lessonConverter', () => {
         translatedChatContent: ['english1', 'english2', 'english3'],
       },
       lessonDescription: '',
-      sentenceExercise: {},
+      sentenceExercise: [],
       sentenceList: [],
-      translatedlessonDescription: '',
+      translatedLessonDescription: '',
     };
     expect(lessonConverter.fromJson!(partialInput)).toEqual(partialOutput);
-  });
-
-  it('should return empty object', () => {
-    expect(lessonConverter.fromJson!(undefined)).toEqual({});
   });
 });

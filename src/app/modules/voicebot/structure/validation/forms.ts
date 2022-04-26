@@ -1,4 +1,4 @@
-import { FormGroup, required, includeCourseWord, includeCategoryWord } from '~app/shared/form';
+import { FormGroup, required, includeCourseWord, includeCategoryWord, min } from '~app/shared/form';
 import { LessonStructureModel } from '../models';
 import { CategoryStructureModel } from '../models/categoryStructure';
 import { CourseStructureModel } from '../models/courseStructure';
@@ -47,5 +47,21 @@ export function createCourseForm() {
       validators: [required],
     },
     categories: {},
+  });
+}
+
+export function createNumberOfCategoriesForm() {
+  return new FormGroup<{ numberOfCategories: number }>({
+    numberOfCategories: {
+      validators: [min(2, 'minNumberOfCategories')],
+    },
+  });
+}
+
+export function createNumberOfLesssonsForm() {
+  return new FormGroup<{ numberOfLessons: number }>({
+    numberOfLessons: {
+      validators: [min(2, 'minNumberOfLessons')],
+    },
   });
 }

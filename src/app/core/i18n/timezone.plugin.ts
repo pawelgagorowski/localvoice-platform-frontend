@@ -10,8 +10,8 @@ export interface TimezonePlugin {
 export const TimezonePlugin: PluginFunction<void> = (Vue) => {
   const value: TimezonePlugin = {
     get current(): string | null {
-      if(timezone.current) return timezone.current;
-      return null
+      if (timezone.current) return timezone.current;
+      return null;
     },
     now,
   };

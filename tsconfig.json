@@ -13,6 +13,7 @@
     "sourceMap": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "types": [
       "webpack-env",
       "jest"

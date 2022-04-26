@@ -1,4 +1,4 @@
-export class LessonSummaryModel {
+class LessonSummaryModel {
   id: string | undefined = undefined;
 
   course: string | undefined = undefined;
@@ -7,3 +7,5 @@ export class LessonSummaryModel {
 
   lesson: string | undefined = undefined;
 }
+
+export default LessonSummaryModel;

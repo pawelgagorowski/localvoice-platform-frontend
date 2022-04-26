@@ -15,7 +15,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
-        <span>Dodaj kategorię zaraz po tej</span>
+        <span>{{ $t('voicebot.buttons.addCategoryRightAfterThat') }}</span>
       </v-tooltip>
       <v-tooltip top>
         <template v-slot:activator="{ on }">
@@ -29,24 +29,26 @@
               $emit('removeCategory', {
                 courseIndex,
                 categoryIndex,
+                validationIds: [...lessonValidationIds, validationId],
               })
             "
           >
             <v-icon>mdi-minus</v-icon>
           </v-btn>
         </template>
-        <span>Usuń tą kategorię</span>
+        <span>{{ $t('voicebot.buttons.removeThisCategory') }}</span>
       </v-tooltip>
     </div>
-    <v-card-title class="pb-0">Kategoria</v-card-title>
+    <v-card-title class="pb-0">{{ $t('voicebot.buttons.categoryName') }}</v-card-title>
     <v-card-text>
       <v-form>
         <form-control-state v-slot:default="{ message }" :errors="form.errors.subject">
           <v-text-field
             :value="category.subject"
             :error-messages="message"
-            hint="To musi być wyrażenie składające się z kilku słów"
-            label="Wyrażenie do nauki 1"
+            :hint="$t('voicebot.labels.categoryStructureHint')"
+            :label="$t('voicebot.labels.orginalCategoryName')"
+            :placeholder="$t('voicebot.labels.categoryNamePlaceholder')"
             @input="
               $emit('updateStructure', {
                 subject: $event,
@@ -61,8 +63,9 @@
           <v-text-field
             :value="category.translatedSubject"
             :error-messages="message"
-            hint="To musi być wyrażenie składające się z kilku słów"
-            label="opis"
+            :hint="$t('voicebot.labels.translatedCategoryStructureHint')"
+            :label="$t('voicebot.labels.translatedCategoryName')"
+            :placeholder="$t('voicebot.labels.translatedCategoryNamePlaceholder')"
             class="mb-5"
             @input="
               $emit('updateStructure', {
@@ -82,7 +85,7 @@
             :errors="form.errors.imageSrc"
           >
             <v-file-input
-              label="File input"
+              :label="$t('voicebot.labels.categoryFileInput')"
               flat
               :value="blobFile"
               :error-messages="message"
@@ -103,7 +106,7 @@
             })
           "
         >
-          Dodaj lekcje
+          {{ $t('voicebot.buttons.addLesson') }}
         </v-btn>
 
         <v-card-title class="pb-0">Lekcje</v-card-title>
@@ -125,6 +128,7 @@
               @insertLesson="$emit('insertLesson', $event)"
               @removeLesson="$emit('removeLesson', $event)"
               @validation="$emit('validation', $event)"
+              @lessonValidationId="setLessonValidationIds"
             ></the-lesson>
           </div>
         </template>
@@ -135,12 +139,12 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue';
-import { v4 as uuid } from 'uuid';
 import { FormControlState } from '~app/shared/form';
 import TheLesson from './TheLesson.vue';
 import { CategoryStructureModel } from '../models/categoryStructure';
-import { createCategoryForm } from '../validation/forms';
+import { createCategoryForm, createNumberOfLesssonsForm } from '../validation/forms';
 import { FormValidationMixin } from '../validation/formValidation.mixin';
+import { ValidationTarget } from '~app/shared/types';
 
 export default Vue.extend({
   components: {
@@ -159,6 +163,7 @@ export default Vue.extend({
     },
     categoryIndex: {
       type: Number,
+      required: true,
       default: 0,
     },
     isMaxCategories: {
@@ -167,11 +172,15 @@ export default Vue.extend({
     },
   },
   data: () => {
-      const form = createCategoryForm()
-      return {
-        maxAmountOfLessons: 12,
-        form,
-        validationId: '',
+    const form = createCategoryForm();
+    const numberOfLessonsForm = createNumberOfLesssonsForm();
+    return {
+      maxAmountOfLessons: 12,
+      numberOfLessonsValidationId: '',
+      form,
+      numberOfLessonsForm,
+      lessonValidationIds: [] as string[],
+      validationId: '',
     };
   },
   computed: {
@@ -183,13 +192,26 @@ export default Vue.extend({
   watch: {
     category: {
       immediate: true,
-      handler(category) {
+      deep: true,
+      handler(category: CategoryStructureModel) {
+        this.validationId = `course-${this.courseIndex}-category-${this.categoryIndex}`;
         this.form.data = category;
-        this.validationId = uuid();
+        this.numberOfLessonsValidationId = `numberOfLessons-${this.categoryIndex}`;
+        const numberOfLessons = category.list ? category.list.length : 0;
+        this.numberOfLessonsForm.data = { numberOfLessons };
+
         this.$emit('validation', {
           data: this.form,
           courseIndex: this.courseIndex,
           id: this.validationId,
+          targets: [ValidationTarget.TEST],
+        });
+
+        this.$emit('validation', {
+          data: this.numberOfLessonsForm,
+          courseIndex: this.courseIndex,
+          id: this.numberOfLessonsValidationId,
+          targets: [ValidationTarget.TEST],
         });
       },
     },
@@ -209,6 +231,9 @@ export default Vue.extend({
         operation: 'category',
         imageSrc,
       });
+    },
+    setLessonValidationIds(validationId: string) {
+      this.lessonValidationIds.push(validationId);
     },
   },
 });

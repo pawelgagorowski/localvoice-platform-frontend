@@ -35,7 +35,7 @@
       <v-chip pill class="transparent rounded-pill py-6" @click="userDrawer = !userDrawer">
         Hi, Watson
         <v-avatar class="ml-2">
-          <v-img src="@/assets/images/faces/1.jpg"></v-img>
+          <v-img src="@/assets/me.png"></v-img>
         </v-avatar>
       </v-chip>
     </v-app-bar>

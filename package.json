@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@coreui/vue": "^3.0.4",
+    "@jest/types": "^27.5.1",
+    "@types/facebook-js-sdk": "^3.3.5",
     "amazon-cognito-identity-js": "^5.2.4",
     "axios": "^0.24.0",
     "axios-mock-adapter": "^1.20.0",
@@ -29,7 +31,6 @@
     "qs": "^6.10.2",
     "reflect-metadata": "^0.1.13",
     "slugify": "^1.6.4",
-    "@jest/types": "^27.5.1",
     "url-join": "^4.0.1",
     "uuid": "^8.3.2",
     "vee-validate": "^3.4.14",

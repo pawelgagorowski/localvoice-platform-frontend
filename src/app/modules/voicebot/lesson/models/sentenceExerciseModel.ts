@@ -1,5 +1,7 @@
-import { ExampleExercises } from '../types';
+import SentenceExampleExercisesModel from './sentenceExampleExerciseModel';
 
 export default class SentenceExercisesModel {
-  [key: string]: ExampleExercises;
+  sentence: string | undefined = undefined;
+
+  sentenceExample: SentenceExampleExercisesModel[] | undefined = undefined;
 }

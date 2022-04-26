@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import Vue, { CreateElement, VNode } from 'vue';
 import { mapGetters } from 'vuex';
-import { FormGroup, matchWith, required } from '~app/shared/form';
+import { FormGroup, required, matchWith } from '~app/shared/form';
 import { authGetters } from '../../store';
 import { passwordService } from './service';
 
@@ -18,7 +18,7 @@ export type VPasswordFormWrapper = Vue & {
 };
 
 export default Vue.extend({
-  name: 'password-form-wrapper',
+  name: 'PasswordFormWrapper',
   data() {
     const form = new FormGroup<PasswordFormData>({
       login: {
@@ -35,7 +35,7 @@ export default Vue.extend({
       },
       confirm: {
         default: '',
-        validators: [required, matchWith('password')],
+        validators: [required, matchWith('password', 'matchWith')],
       },
     });
 
@@ -63,7 +63,7 @@ export default Vue.extend({
   },
   methods: {
     onSubmit(e?: Event) {
-      e?.preventDefault();
+      // e?.preventDefault();
 
       if (!this.form.validate()) {
         return;
@@ -82,15 +82,15 @@ export default Vue.extend({
           }
 
           // TODO(API): better error response
-          if (err.response!.data.message.includes('Old password')) {
-            this.form.setCustomError('current', this.$t('Invalid password') as string);
-            return;
-          }
+          // if (err.response!.data.message.includes('Old password')) {
+          //   this.form.setCustomError('current', this.$t('Invalid password') as string);
+          //   return;
+          // }
         });
     },
 
     reset(e?: Event) {
-      e?.preventDefault();
+      // e?.preventDefault();
 
       this.form.reset({
         current: undefined,
@@ -111,7 +111,7 @@ export default Vue.extend({
       },
       this.$scopedSlots.default!({
         form: this.form,
-      }),
+      })
     );
   },
 });

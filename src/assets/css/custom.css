@@ -1,0 +1,13 @@
+.v-dialog-localvoice {
+    box-shadow: 1px 4px 30px 0px rgba(66, 68, 90, 0.2) !important;
+  }
+.create-lesson-image-localvoice {
+  max-width: 350px;
+  border-radius: 19%;
+  margin-bottom: 15px;
+}
+
+.fixed-save-bottom-button-localvoice {
+  right: 97px !important;
+  bottom: 106px !important;
+}
