@@ -29,7 +29,7 @@ export const ConfigPluginFactory = ({ store }: AppConfigPluginOptions): AppConfi
     Object.defineProperty(Vue.prototype, '$config', {
       get() {
         return store.getters[configGetters.getState];
-      },
+      }
     });
 
     Vue.directive('feature', FeatureDirective);
@@ -37,5 +37,5 @@ export const ConfigPluginFactory = ({ store }: AppConfigPluginOptions): AppConfi
 
   async init() {
     return store.dispatch(configActions.loadConfig).then(() => store.getters[configGetters.getState]);
-  },
+  }
 });

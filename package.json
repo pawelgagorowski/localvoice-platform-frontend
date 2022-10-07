@@ -1,7 +1,6 @@
 {
   "name": "vuetify-test",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -63,7 +62,7 @@
     "@vue/cli-plugin-unit-jest": "^4.5.15",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-airbnb": "~5.0.2",
+    "@vue/eslint-config-airbnb": "^5.0.2",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.3.0",
@@ -75,7 +74,7 @@
     "husky": "^7.0.4",
     "node-sass": "^7.0.1",
     "npm-check-updates": "^12.0.2",
-    "prettier": "^2.2.1",
+    "prettier": "^2.7.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "ts-jest": "^27.1.3",
@@ -84,18 +83,5 @@
     "vue-cli-plugin-vuetify": "~2.4.3",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>",
-      "/home/some/path/"
-    ],
-    "modulePaths": [
-      "<rootDir>",
-      "/home/some/other/path"
-    ],
-    "moduleDirectories": [
-      "node_modules"
-    ]
   }
 }

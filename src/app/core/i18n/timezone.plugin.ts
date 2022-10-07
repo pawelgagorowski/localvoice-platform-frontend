@@ -13,7 +13,7 @@ export const TimezonePlugin: PluginFunction<void> = (Vue) => {
       if (timezone.current) return timezone.current;
       return null;
     },
-    now,
+    now
   };
 
   Object.defineProperty(Vue.prototype, '$timezone', { value });

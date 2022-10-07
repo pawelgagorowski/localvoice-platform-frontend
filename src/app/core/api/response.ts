@@ -15,11 +15,11 @@ export function collectionResponseInterceptor(responseMessage: AxiosResponse): A
   console.log('responseMessage', responseMessage);
   if (responseMessage.status < 400) {
     response = {
-      data: responseMessage.data.message,
+      data: responseMessage.data.message
     };
   } else {
     response = {
-      data: responseMessage.data.errorMessage,
+      data: responseMessage.data.errorMessage
     };
   }
   return response as AxiosResponse | Promise<AxiosResponse>;

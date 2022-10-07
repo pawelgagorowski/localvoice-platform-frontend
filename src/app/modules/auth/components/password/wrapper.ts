@@ -23,30 +23,30 @@ export default Vue.extend({
     const form = new FormGroup<PasswordFormData>({
       login: {
         default: '',
-        validators: [required],
+        validators: [required]
       },
       current: {
         default: '',
-        validators: [required],
+        validators: [required]
       },
       password: {
         default: '',
-        validators: [required],
+        validators: [required]
       },
       confirm: {
         default: '',
-        validators: [required, matchWith('password', 'matchWith')],
-      },
+        validators: [required, matchWith('password', 'matchWith')]
+      }
     });
 
     return {
-      form,
+      form
     };
   },
   computed: {
     ...mapGetters({
-      user: authGetters.getUser,
-    }),
+      user: authGetters.getUser
+    })
   },
   watch: {
     'form.data': {
@@ -55,8 +55,8 @@ export default Vue.extend({
         if (this.form.validated) {
           this.form.validate();
         }
-      },
-    },
+      }
+    }
   },
   created(): void {
     this.form.data.login = this.user.login;
@@ -95,9 +95,9 @@ export default Vue.extend({
       this.form.reset({
         current: undefined,
         password: undefined,
-        confirm: undefined,
+        confirm: undefined
       });
-    },
+    }
   },
 
   render(h: CreateElement): VNode {
@@ -106,12 +106,12 @@ export default Vue.extend({
       {
         on: {
           submit: this.onSubmit,
-          reset: this.reset,
-        },
+          reset: this.reset
+        }
       },
       this.$scopedSlots.default!({
-        form: this.form,
+        form: this.form
       })
     );
-  },
+  }
 });

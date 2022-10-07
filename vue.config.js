@@ -10,8 +10,8 @@ module.exports = {
     index: {
       entry: 'src/main.ts',
       template: 'public/index.html',
-      filename: 'index.html',
-    },
+      filename: 'index.html'
+    }
   },
 
   devServer: {
@@ -29,15 +29,15 @@ module.exports = {
     // open: true,
     overlay: {
       warnings: false,
-      errors: true,
+      errors: true
     },
     publicPath: '/',
     quiet: true,
     watchOptions: {
       poll: false,
-      ignored: /node_modules/,
+      ignored: /node_modules/
     },
-    disableHostCheck: true,
+    disableHostCheck: true
   },
   chainWebpack: (config) => {
     config.resolve.alias.set('~app', path.resolve('./src/app'));
@@ -53,12 +53,14 @@ module.exports = {
     //   });
     // }
 
-    config.plugin('circular-dependency').use(CircularDependencyPlugin, [{ exclude: /node_modules/ }]);
+    config
+      .plugin('circular-dependency')
+      .use(CircularDependencyPlugin, [{ exclude: /node_modules/ }]);
 
     if (process.argv.some((arg) => arg.includes('report'))) {
       config.optimization.concatenateModules(false);
     }
   },
   lintOnSave: false,
-  transpileDependencies: ['vuetify'],
+  transpileDependencies: ['vuetify']
 };

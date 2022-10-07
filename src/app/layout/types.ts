@@ -1,12 +1,12 @@
 /* eslint-disable no-shadow */
 export enum LayoutMode {
   DARK = 'dark',
-  WHITE = 'white',
+  WHITE = 'white'
 }
 
 export enum BackgroundColor {
   DARK = '#121212',
-  WHITE = '#f2f3f8',
+  WHITE = '#f2f3f8'
 }
 
 export interface LayoutState {

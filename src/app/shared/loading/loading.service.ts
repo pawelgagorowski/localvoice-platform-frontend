@@ -27,7 +27,7 @@ export class LoadingService {
   constructor() {
     this.create({
       name: SYS_LOADING_MAIN,
-      style: SysLoadingStyle.FullScreen,
+      style: SysLoadingStyle.FullScreen
     });
   }
 
@@ -41,8 +41,8 @@ export class LoadingService {
       style: cfg.style || undefined,
       target: cfg.target as HTMLElement,
       componentRef: new SysLoadingComponent({
-        el: document.createElement('div'),
-      }),
+        el: document.createElement('div')
+      })
     };
 
     return this._createNamespace(cfg.name);
@@ -150,7 +150,7 @@ export class LoadingService {
       register: (count?: number): number => this.register(name, count),
       resolve: (count?: number): number => this.resolve(name, count),
       resolveAll: () => this.resolveAll(name),
-      remove: () => this.remove(name),
+      remove: () => this.remove(name)
     };
   }
 }

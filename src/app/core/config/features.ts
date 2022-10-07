@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { DirectiveFunction } from 'vue';
 import { NavigationGuard } from 'vue-router';
 import { store } from '~app/core/store';

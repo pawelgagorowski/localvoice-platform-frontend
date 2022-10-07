@@ -19,7 +19,7 @@ export function initialState(): StructureState {
   return {
     lessons: {
       indexes: lessonListEntityAdapter.getInitialState({ total: 0 }),
-      lessonList: [],
-    },
+      lessonList: []
+    }
   };
 }

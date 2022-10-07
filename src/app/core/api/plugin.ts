@@ -6,6 +6,6 @@ export const ApiPlugin: PluginFunction<void> = (Vue) => {
   Object.defineProperty(Vue.prototype, '$api', {
     get() {
       return api;
-    },
+    }
   });
 };

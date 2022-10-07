@@ -13,18 +13,18 @@ describe('lessonConverter', () => {
     words: {
       wordOne: {
         examplesForWord: [
-          ['Rzeczownik', 'cinema', 'when have you been in cinema?', 'kiedy byłeś w kinie?', null, null, false],
+          ['Rzeczownik', 'cinema', 'when have you been in cinema?', 'kiedy byłeś w kinie?', null, null, false]
         ],
-        sentences: ['df'],
+        sentences: ['df']
       },
       wordTwo: {
         examplesForWord: [['Czasownik', 'work', 'do you work today?', 'pracujesz dzisiaj?', null, null, false]],
-        sentences: ['df'],
+        sentences: ['df']
       },
       lesson_description: 'lesson description',
       lesson_description_translate: 'opis lekcji',
-      words_to_repeat: ['wordOne', 'wordTwo'],
-    },
+      words_to_repeat: ['wordOne', 'wordTwo']
+    }
   };
 
   it('should convert value to specific object', () => {
@@ -34,7 +34,7 @@ describe('lessonConverter', () => {
         chatDescription: 'chat description',
         translatedChatDescription: 'opis chatu',
         chatContent: ['polish1', 'polish2', 'polish3'],
-        translatedChatContent: ['english1', 'english2', 'english3'],
+        translatedChatContent: ['english1', 'english2', 'english3']
       },
       sentenceExercise: [
         {
@@ -46,9 +46,9 @@ describe('lessonConverter', () => {
               imageSrc: null,
               isImage: false,
               typeOfExample: 'Rzeczownik',
-              something: null,
-            },
-          ],
+              something: null
+            }
+          ]
         },
         {
           sentence: 'wordTwo',
@@ -59,14 +59,14 @@ describe('lessonConverter', () => {
               imageSrc: null,
               isImage: false,
               typeOfExample: 'Czasownik',
-              something: null,
-            },
-          ],
-        },
+              something: null
+            }
+          ]
+        }
       ],
       lessonDescription: 'lesson description',
       translatedLessonDescription: 'opis lekcji',
-      sentenceList: ['wordOne', 'wordTwo'],
+      sentenceList: ['wordOne', 'wordTwo']
     };
     expect(lessonConverter.fromJson!(fullInput)).toEqual(expectedOutput);
   });
@@ -78,7 +78,7 @@ describe('lessonConverter', () => {
         chatDescription: 'chat description',
         translatedChatDescription: 'opis chatu',
         chatContent: ['polish1', 'polish2', 'polish3'],
-        translatedChatContent: ['english1', 'english2', 'english3'],
+        translatedChatContent: ['english1', 'english2', 'english3']
       },
       sentenceExercise: [
         {
@@ -90,9 +90,9 @@ describe('lessonConverter', () => {
               imageSrc: null,
               isImage: false,
               typeOfExample: 'Rzeczownik',
-              something: null,
-            },
-          ],
+              something: null
+            }
+          ]
         },
         {
           sentence: 'wordTwo',
@@ -103,14 +103,14 @@ describe('lessonConverter', () => {
               imageSrc: null,
               isImage: false,
               typeOfExample: 'Czasownik',
-              something: null,
-            },
-          ],
-        },
+              something: null
+            }
+          ]
+        }
       ],
       lessonDescription: 'lesson description',
       translatedLessonDescription: 'opis lekcji',
-      sentenceList: ['wordOne', 'wordTwo'],
+      sentenceList: ['wordOne', 'wordTwo']
     };
     expect(lessonConverter.fromJson!(fullInput)).not.toEqual(notExpected);
     expect(lessonConverter.fromJson!(fullInput)).not.toEqual({});
@@ -123,12 +123,12 @@ describe('lessonConverter', () => {
         chatContent: [],
         chatDescription: '',
         translatedChatContent: [],
-        translatedChatDescription: '',
+        translatedChatDescription: ''
       },
       lessonDescription: '',
       sentenceExercise: [],
       sentenceList: [],
-      translatedLessonDescription: '',
+      translatedLessonDescription: ''
     };
     expect(lessonConverter.fromJson!({})).toEqual(notEmptyObject);
     expect(lessonConverter.fromJson!(undefined)).toEqual(notEmptyObject);
@@ -140,7 +140,7 @@ describe('lessonConverter', () => {
       chat: ['polish1', 'polish2', 'polish3'],
       translate: ['english1', 'english2', 'english3'],
       chatDescription: 'chat description',
-      translatedChatDescription: 'opis chatu',
+      translatedChatDescription: 'opis chatu'
     };
 
     const partialOutput = {
@@ -149,12 +149,12 @@ describe('lessonConverter', () => {
         chatDescription: 'chat description',
         translatedChatDescription: 'opis chatu',
         chatContent: ['polish1', 'polish2', 'polish3'],
-        translatedChatContent: ['english1', 'english2', 'english3'],
+        translatedChatContent: ['english1', 'english2', 'english3']
       },
       lessonDescription: '',
       sentenceExercise: [],
       sentenceList: [],
-      translatedLessonDescription: '',
+      translatedLessonDescription: ''
     };
     expect(lessonConverter.fromJson!(partialInput)).toEqual(partialOutput);
   });

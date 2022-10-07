@@ -29,12 +29,12 @@ export function importAuthToken(response: string): AuthToken {
     accessToken: res.accessToken,
     refreshToken: res.refreshToken,
     userId: jwt.userId,
-    backendEnvironment: res.backendEnvironment,
+    backendEnvironment: res.backendEnvironment
   };
 }
 
 export function exportAuthToken(token: AuthToken): string {
   return JSON.stringify({
-    ...token,
+    ...token
   });
 }
