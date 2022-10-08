@@ -64,10 +64,10 @@ export class AuthService {
       this.token = this.api
         .post<AuthToken>('/api/authentication/refresh', {
           userId: token.userId,
-          refreshToken: token.refreshToken,
+          refreshToken: token.refreshToken
         })
         .then((res) => ({
-          ...importAuthToken(JSON.stringify(res.data)),
+          ...importAuthToken(JSON.stringify(res.data))
         }));
 
       return this.token.then((authToken) => this.storage.store(authToken as AuthToken)).catch(() => this.logout());

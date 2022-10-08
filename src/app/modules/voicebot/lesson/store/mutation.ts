@@ -26,15 +26,15 @@ export const mutations = {
           chatDescription: '',
           translatedChatContent: [],
           chatContent: [],
-          translatedChatDescription: '',
+          translatedChatDescription: ''
         },
         sentenceExercise: [],
         lessonDescription: '',
         translatedLessonDescription: '',
-        sentenceList: [],
+        sentenceList: []
       },
       business: '',
-      tester: '',
+      tester: ''
     };
     state.lesson.lessonOnEdit = emptyLesson;
   }),
@@ -48,7 +48,7 @@ export const mutations = {
     console.log('pushCourse mutation');
     const newSentence: SentenceExercisesModel = {
       sentence: '',
-      sentenceExample: [],
+      sentenceExample: []
     };
     state.lesson.lessonOnEdit.exercises!.sentenceExercise!.push(newSentence);
   }),
@@ -59,7 +59,7 @@ export const mutations = {
   spliceSentence: createMutation((state, sentenceIndex: number) => {
     const newSentence: SentenceExercisesModel = {
       sentence: '',
-      sentenceExample: [],
+      sentenceExample: []
     };
     if (state.lesson.lessonOnEdit.exercises?.sentenceExercise) {
       state.lesson.lessonOnEdit.exercises!.sentenceExercise!.splice(sentenceIndex + 1, 0, newSentence);
@@ -70,7 +70,7 @@ export const mutations = {
       state,
       {
         sentence,
-        sentenceIndex,
+        sentenceIndex
       }: {
         sentence: string;
         sentenceIndex: number;
@@ -87,7 +87,7 @@ export const mutations = {
         imageSrc: '',
         isImage: false,
         typeOfExample: 'none',
-        something: null,
+        something: null
       };
       if (state.lesson.lessonOnEdit.exercises!.sentenceExercise![sentenceIndex].sentenceExample) {
         state.lesson.lessonOnEdit.exercises!.sentenceExercise![sentenceIndex].sentenceExample!.splice(
@@ -106,7 +106,7 @@ export const mutations = {
       imageSrc: '',
       isImage: false,
       typeOfExample: 'none',
-      something: null,
+      something: null
     };
     if (state.lesson.lessonOnEdit.exercises!.sentenceExercise![sentenceIndex].sentenceExample) {
       state.lesson.lessonOnEdit.exercises!.sentenceExercise![sentenceIndex].sentenceExample!.push(newSentenceExample);
@@ -130,7 +130,7 @@ export const mutations = {
       {
         attributeToUpdate,
         sentenceIndex,
-        sentenceExampleIndex,
+        sentenceExampleIndex
       }: {
         attributeToUpdate: ObjectAttribute;
         sentenceIndex: number;
@@ -147,7 +147,7 @@ export const mutations = {
         attributeToUpdate.value
       );
     }
-  ),
+  )
 };
 
 export const lessonMutations = createMutationMap<typeof mutations, LessonState>(NAMESPACE, mutations);

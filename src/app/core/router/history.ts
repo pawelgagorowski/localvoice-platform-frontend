@@ -106,15 +106,13 @@ export class RouterHistory {
   }
 }
 
-export const RouterHistoryPlugin: (router: VueRouter) => PluginFunction<RouterHistoryConfig> = (router) => (
-  Vue,
-  options?
-) => {
-  const history = new RouterHistory(router, options);
+export const RouterHistoryPlugin: (router: VueRouter) => PluginFunction<RouterHistoryConfig> =
+  (router) => (Vue, options?) => {
+    const history = new RouterHistory(router, options);
 
-  Object.defineProperty(Vue.prototype, '$history', {
-    get() {
-      return history;
-    },
-  });
-};
+    Object.defineProperty(Vue.prototype, '$history', {
+      get() {
+        return history;
+      }
+    });
+  };

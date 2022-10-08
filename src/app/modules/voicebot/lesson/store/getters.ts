@@ -11,7 +11,7 @@ export const getters = {
     state.lesson.lessonOnEdit.exercises?.sentenceExercise
       ? state.lesson.lessonOnEdit.exercises?.sentenceExercise?.length
       : 0
-  ),
+  )
 };
 
 export const lessonGetters = createGetterMap<typeof getters, LessonState, RootState>(NAMESPACE, getters);

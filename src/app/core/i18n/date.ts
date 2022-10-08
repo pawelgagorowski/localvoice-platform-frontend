@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { Locale } from 'date-fns';
 import { format as dateFnsFormat, OptionsWithTZ, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 import { enAU, enUS, es } from 'date-fns/locale';
@@ -9,7 +10,7 @@ const dateLocales: { [key: string]: Locale } = {
   'en-US': enUS,
   'en-AU': enAU,
   'en-NZ': enAU,
-  'es-MX': es,
+  'es-MX': es
 };
 
 /** Current time in user's timezone. */
@@ -32,8 +33,8 @@ export function formatDate(date: Date, format = 'PP', options?: OptionsWithTZ): 
   return date
     ? dateFnsFormat(date, format, {
         locale: dateLocales[i18n.locale],
-        timeZone: timezone.current || null,
-        ...options,
+        timeZone: timezone.current || undefined,
+        ...options
       })
     : null;
 }
@@ -46,5 +47,5 @@ export const dateZonedConverter: Converter = {
   toJson(date: Date): string | null {
     if (timezone.current) return date ? zonedTimeToUtc(date, timezone.current).toISOString() : null;
     return null;
-  },
+  }
 };

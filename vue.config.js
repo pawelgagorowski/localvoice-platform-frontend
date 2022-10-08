@@ -53,9 +53,7 @@ module.exports = {
     //   });
     // }
 
-    config
-      .plugin('circular-dependency')
-      .use(CircularDependencyPlugin, [{ exclude: /node_modules/ }]);
+    // config.plugin('circular-dependency').use(CircularDependencyPlugin, [{ exclude: /node_modules/ }]);
 
     if (process.argv.some((arg) => arg.includes('report'))) {
       config.optimization.concatenateModules(false);

@@ -13,16 +13,18 @@ const createGetter = createGetterFactory<StructureState, RootState>();
 export const getters = {
   getStructure: createGetter((state) => state.structure.coursesList),
   getCourse: createGetter((state) => (courseIndex: number) => state.structure.coursesList[courseIndex]),
-  getImageSrc: createGetter((state) => (indexes: StructureIndexes, operation: StructureOperation): (
-    | string
-    | undefined
-  )[] => getImageSrc[operation](state, indexes)),
-  getLinkedCoursesCategoriesAndLessons: createGetter((state) => state.subjects.subjectsList),
-  getNumberOfCategories: createGetter((state) => (courseIndex: number) =>
-    state.structure.coursesList[courseIndex].categories
-      ? state.structure.coursesList[courseIndex].categories?.length
-      : 0
+  getImageSrc: createGetter(
+    (state) =>
+      (indexes: StructureIndexes, operation: StructureOperation): (string | undefined)[] =>
+        getImageSrc[operation](state, indexes)
   ),
+  getLinkedCoursesCategoriesAndLessons: createGetter((state) => state.subjects.subjectsList),
+  getNumberOfCategories: createGetter(
+    (state) => (courseIndex: number) =>
+      state.structure.coursesList[courseIndex].categories
+        ? state.structure.coursesList[courseIndex].categories?.length
+        : 0
+  )
 };
 
 export const voicebotGetters = createGetterMap<typeof getters, StructureState, RootState>(NAMESPACE, getters);
@@ -65,5 +67,5 @@ const getImageSrc = {
         .imageSrc
     );
     return lessonImageSrc;
-  },
+  }
 };

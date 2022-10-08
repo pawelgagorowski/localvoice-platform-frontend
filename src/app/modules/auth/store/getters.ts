@@ -9,7 +9,7 @@ export const getters = {
   isAuthorized: createGetter((state) => !!state.user),
   getUser: createGetter((state) => state.user),
   getPermissions: createGetter((state) => state.user?.permissions || []),
-  getLanguage: createGetter((state) => state.user?.language),
+  getLanguage: createGetter((state) => state.user?.language)
 };
 
 export const authGetters = createGetterMap<typeof getters, AuthState, RootState>(NAMESPACE, getters);

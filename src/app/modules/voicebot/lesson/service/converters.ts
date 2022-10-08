@@ -15,12 +15,12 @@ export const lessonConverter: Converter = {
           chatContent: [],
           chatDescription: '',
           translatedChatContent: [],
-          translatedChatDescription: '',
+          translatedChatDescription: ''
         },
         lessonDescription: '',
         sentenceExercise: [],
         sentenceList: [],
-        translatedLessonDescription: '',
+        translatedLessonDescription: ''
       };
     const lessonExercises = <LessonExercisesModel>{};
     lessonExercises.challengeList = value.challengeForToday || [];
@@ -39,14 +39,14 @@ export const lessonConverter: Converter = {
       if (key === 'lesson_description' || key === 'lesson_description_translate' || key === 'words_to_repeat') return;
       lessonExercises.sentenceExercise!.push({
         sentence: key as string,
-        sentenceExample: getSentenceExample(value.words![key]),
+        sentenceExample: getSentenceExample(value.words![key])
       });
     });
     return lessonExercises;
   },
   toJson(date: any): any {
     return 'hello from toJson';
-  },
+  }
 };
 
 function getSentenceExample(sentence: {
@@ -59,7 +59,7 @@ function getSentenceExample(sentence: {
       imageSrc: example[5],
       isImage: example[6],
       typeOfExample: example[0],
-      something: example[4],
+      something: example[4]
     })
   );
 }
