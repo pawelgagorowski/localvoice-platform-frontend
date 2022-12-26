@@ -7,12 +7,12 @@
             <v-btn class="ma-2" dark color="primary" @click="createLesson()">
               <router-link
                 :to="{
-                  name: 'create-lesson',
+                  name: 'create-lesson'
                 }"
                 style="text-decoration: none; color: inherit"
               >
                 <v-icon>mdi-plus</v-icon>
-                {{ $t('buttons.voicebot.createLesson') }}
+                {{ $t('buttons.createLesson') }}
               </router-link>
             </v-btn>
             <button @click="fbInit">login</button>
@@ -54,7 +54,7 @@
                     <router-link
                       :to="{
                         name: 'create-lesson',
-                        query: { lessonName: item.lesson, categoryName: item.category, courseName: item.course },
+                        query: { lessonName: item.lesson, categoryName: item.category, courseName: item.course }
                       }"
                     >
                       <v-icon>mdi-pencil-box-outline</v-icon>
@@ -116,14 +116,14 @@
 import Vue from 'vue';
 import { mapGetters, mapActions } from 'vuex';
 import { router } from '~app/core/router';
-import LessonSummaryModel from '../models/lessonSummary';
 import { lessonActions } from '~app/modules/voicebot/lesson';
+import LessonSummaryModel from '../models/lessonSummary';
 import { lessonListActions, lessonListGetters } from '../store';
 
 export default Vue.extend({
   metaInfo: {
     // title will be injected into parent titleTemplate
-    title: 'Table One',
+    title: 'Table One'
   },
   data: () => ({
     dialogDelete: false,
@@ -135,18 +135,18 @@ export default Vue.extend({
       {
         text: 'Lesson',
         align: 'start',
-        value: 'lessonName',
+        value: 'lessonName'
       },
       { text: 'Category', value: 'categoryName' },
       { text: 'Course', value: 'courseName' },
       { text: 'Status', value: 'badge' },
-      { text: 'Action', value: 'action' },
-    ],
+      { text: 'Action', value: 'action' }
+    ]
   }),
   computed: {
     ...mapGetters({
-      lessonList: lessonListGetters.getLessonList,
-    }),
+      lessonList: lessonListGetters.getLessonList
+    })
   },
   created() {
     this.fetchlessonsList();
@@ -155,7 +155,7 @@ export default Vue.extend({
     ...mapActions({
       fetchlessonsList: lessonListActions.fetchLessonsList,
       removeLesson: lessonListActions.removeLesson,
-      cleanLesson: lessonActions.cleanLesson,
+      cleanLesson: lessonActions.cleanLesson
     }),
     deleteItemConfirmation() {
       this.dialogDelete = false;
@@ -190,11 +190,11 @@ export default Vue.extend({
         {
           scope:
             'pages_messaging, email, pages_manage_engagement, pages_manage_metadata, pages_messaging_subscriptions',
-          return_scopes: true,
+          return_scopes: true
         }
       );
-    },
-  },
+    }
+  }
 });
 </script>
 

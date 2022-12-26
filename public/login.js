@@ -1,14 +1,14 @@
 /* eslint-disable  */
 
 var $cookie, $storage, Login;
-console.log("helo from login.js")
+console.log('helo from login.js');
 $cookie = (function () {
   var COOKIE_EXP_HOURS = 720;
 
   return {
     add: add,
     get: get,
-    remove: remove,
+    remove: remove
   };
 
   function add(name, value, expireHours) {
@@ -47,7 +47,7 @@ $cookie = (function () {
   }
 
   function remove(name) {
-    console.log("remove")
+    console.log('remove');
     var date = new Date();
     date.setTime(date.getTime() - 10000); // 删除一个cookie，就是将其过期时间设定为一个过去的时间
     document.cookie = name + '=v; expire=' + date.toGMTString();
@@ -55,7 +55,7 @@ $cookie = (function () {
 })();
 
 $storage = (function (global) {
-  console.log("$storage")
+  console.log('$storage');
   var STORAGE_KEY = 'Localvoice@%DOMAIN%',
     props = ['token', 'refreshToken'],
     client;
@@ -66,11 +66,11 @@ $storage = (function (global) {
 
   return {
     save: save,
-    clear: clear,
+    clear: clear
   };
 
   function save(propMap) {
-    console.log("propMap", propMap);
+    console.log('propMap', propMap);
 
     if (!client) {
       return Promise.reject(new Error('Token storage client not configured'));
@@ -103,9 +103,7 @@ $storage = (function (global) {
 })(window);
 
 Login = (function (global, $, $cookie, $storage) {
-  console.log(
-    "login"
-  )
+  console.log('login');
   var $body = $('body'),
     $formLogin = $('#formLogin'),
     $inputUserEmail = $('#userEmail'),
@@ -113,7 +111,7 @@ Login = (function (global, $, $cookie, $storage) {
     $validation = $('#validation');
 
   return {
-    init: init,
+    init: init
   };
 
   function _applyBindings() {
@@ -124,7 +122,7 @@ Login = (function (global, $, $cookie, $storage) {
     $formLogin.on('submit', onFormSubmit);
 
     function onFormSubmit(e) {
-      console.log("onFormSubmit")
+      console.log('onFormSubmit');
       var $alert, username, pass;
 
       e.preventDefault();
@@ -138,24 +136,24 @@ Login = (function (global, $, $cookie, $storage) {
 
       $.ajax({
         type: 'POST',
-        url: global.API_URL + '/api/authentication/signin',
+        url: global.API_URL + '/api/test/authentication/signin',
         data: JSON.stringify({
           email: username,
-          password: pass,
+          password: pass
         }),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         success: function (message) {
           onSuccess(message);
         },
-        error: onError,
+        error: onError
       });
 
-      function onSuccess({message}) {
-        console.log("message", message)
+      function onSuccess({ message }) {
+        console.log('message', message);
         const mapStorage = {
           token: message.accessToken,
-          refreshToken: message.refreshToken,
+          refreshToken: message.refreshToken
         };
 
         $storage

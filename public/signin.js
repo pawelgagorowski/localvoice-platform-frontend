@@ -8,22 +8,22 @@ new Vue({
       // directive definition
       inserted(el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   data() {
     return {
       email: '',
-      password: '',
+      password: ''
     };
   },
   methods: {
     signin() {
       console.log('signin');
       axios
-        .post('http://localhost:3000/api/authentication/signin', {
+        .post('http://localhost:3000/test/api/authentication/signin', {
           email: this.email,
-          password: this.password,
+          password: this.password
         })
         .then(async (response) => {
           const client = await Storage.init();
@@ -41,6 +41,6 @@ new Vue({
         .catch((error) => {
           console.log(error);
         });
-    },
-  },
+    }
+  }
 });

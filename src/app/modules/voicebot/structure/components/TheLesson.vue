@@ -11,15 +11,15 @@
           :value="lesson.subject"
           :error-messages="message"
           clear-icon
-          :label="$t('voicebot.labels.lessonName')"
-          :placeholder="$t('voicebot.labels.lessonNamePlaceholder')"
+          :label="$t('labels.lessonName')"
+          :placeholder="$t('labels.lessonNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               subject: $event,
               courseIndex,
               categoryIndex,
               lessonIndex,
-              operation: 'lesson',
+              operation: 'lesson'
             })
           "
         />
@@ -28,8 +28,8 @@
         <v-text-field
           :value="lesson.translatedSubject"
           :error-messages="message"
-          :label="$t('voicebot.labels.translatedLessonName')"
-          :placeholder="$t('voicebot.labels.translatedLessonNamePlaceholder')"
+          :label="$t('labels.translatedLessonName')"
+          :placeholder="$t('labels.translatedLessonNamePlaceholder')"
           class="mb-5"
           @input="
             $emit('updateStructure', {
@@ -37,7 +37,7 @@
               courseIndex,
               categoryIndex,
               lessonIndex,
-              operation: 'lesson',
+              operation: 'lesson'
             })
           "
         />
@@ -51,7 +51,7 @@
         >
           <v-file-input
             v-if="lesson"
-            :label="$t('voicebot.labels.lessonFileInput')"
+            :label="$t('labels.lessonFileInput')"
             flat
             :value="blobFile"
             :error-messages="message"
@@ -75,7 +75,7 @@
                 $emit('insertLesson', {
                   courseIndex,
                   categoryIndex,
-                  lessonIndex,
+                  lessonIndex
                 })
               "
             >
@@ -97,7 +97,7 @@
                   courseIndex,
                   categoryIndex,
                   lessonIndex,
-                  validationId,
+                  validationId
                 })
               "
             >
@@ -114,44 +114,44 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { FormGroup, FormControlState } from '~app/shared/form';
+import { ValidationTarget } from '~app/shared';
 import { LessonStructureModel } from '../models';
 import { createLessonForm } from '../validation/forms';
 import { FormValidationMixin } from '../validation/formValidation.mixin';
-import { ValidationTarget } from '~app/shared';
 
 export default Vue.extend({
   name: 'TheLesson',
   components: {
-    FormControlState,
+    FormControlState
   },
   mixins: [FormValidationMixin],
   props: {
     lesson: {
       type: Object as PropType<FormGroup<LessonStructureModel>>,
-      required: true,
+      required: true
     },
     courseIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     categoryIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     lessonIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     maxLessons: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => {
     const form = createLessonForm();
     return {
       validationId: '',
-      form,
+      form
     };
   },
   watch: {
@@ -164,16 +164,16 @@ export default Vue.extend({
           data: this.form,
           courseIndex: this.courseIndex,
           id: this.validationId,
-          targets: [ValidationTarget.TEST],
+          targets: [ValidationTarget.TEST]
         });
-      },
+      }
     },
     validationId: {
       handler(validationId) {
         this.$emit('lessonValidationId', validationId);
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     updatePicture($event: File | null = null, imageSrc: string) {
@@ -189,10 +189,10 @@ export default Vue.extend({
         categoryIndex: this.categoryIndex,
         lessonIndex: this.lessonIndex,
         imageSrc,
-        operation: 'lesson',
+        operation: 'lesson'
       });
-    },
-  },
+    }
+  }
 });
 </script>
 

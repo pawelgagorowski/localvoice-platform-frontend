@@ -57,25 +57,25 @@ import {
   ValidationForm,
   ValidationTarget,
   coerceArray,
-  VoicebotButtonsText,
+  VoicebotButtonsText
 } from '~app/shared';
 import { translate } from '~app/core/i18n';
 import { areExampleCorrect, fillUpValidationForm, deleteValidationFields } from '~app/shared/validation';
+import { router } from '~app/core/router';
 import { voicebotActions, voicebotGetters } from '../store';
 import CategoryGroup from '../components/CategoryGroup.vue';
 import CourseCarousel from '../components/CourseCarousel.vue';
 
 import { CourseStructureModel } from '../models/courseStructure';
-import { router } from '~app/core/router';
 
 export default Vue.extend({
   metaInfo: {
-    title: 'Table One',
+    title: 'Table One'
   },
   components: {
     CategoryGroup,
     CourseCarousel,
-    FixedButton,
+    FixedButton
   },
   data() {
     return {
@@ -84,17 +84,17 @@ export default Vue.extend({
       validationForm: {} as StructureValidationForm<CourseStructureModel>,
       buttonsText: {
         save: translate('save'),
-        test: translate('voicebot.buttons.addStructureToTest'),
-        production: translate('voicebot.buttons.addStructureToProd'),
-      } as VoicebotButtonsText,
+        test: translate('buttons.addStructureToTest'),
+        production: translate('buttons.addStructureToProd')
+      } as VoicebotButtonsText
     };
   },
   computed: {
     ...mapGetters({
       layoutState: layoutGetters.getState,
       courses: voicebotGetters.getStructure,
-      loadingStatus: loadingGetters.getStructureLoadingStatus,
-    }),
+      loadingStatus: loadingGetters.getStructureLoadingStatus
+    })
   },
   watch: {
     courseIndex: {
@@ -114,8 +114,8 @@ export default Vue.extend({
         [ValidationTarget.SAVE, ValidationTarget.TEST].forEach((target) => {
           this.validationForm[courseIndex][target] = {};
         });
-      },
-    },
+      }
+    }
   },
   methods: {
     ...mapActions({
@@ -131,12 +131,12 @@ export default Vue.extend({
       addCourse: voicebotActions.addCourse,
       removeCourse: voicebotActions.removeCourse,
       removePicture: voicebotActions.removePicture,
-      setLoadingStatus: loadingActions.addVoicebotStructureLoadingStatus,
+      setLoadingStatus: loadingActions.addVoicebotStructureLoadingStatus
     }),
     comprehensivelyRemoveCategory(data: { courseIndex: number; categoryIndex: number; validationIds: string[] }) {
       deleteValidationFields({
         validationIds: coerceArray(data.validationIds),
-        validationForm: this.validationForm[this.courseIndex],
+        validationForm: this.validationForm[this.courseIndex]
       });
       this.removeCategory({ courseIndex: data.courseIndex, categoryIndex: data.categoryIndex });
     },
@@ -148,12 +148,12 @@ export default Vue.extend({
     }) {
       deleteValidationFields({
         validationIds: coerceArray(data.validationId),
-        validationForm: this.validationForm[this.courseIndex],
+        validationForm: this.validationForm[this.courseIndex]
       });
       this.removeLesson({
         courseIndex: data.courseIndex,
         categoryIndex: data.categoryIndex,
-        lessonIndex: data.lessonIndex,
+        lessonIndex: data.lessonIndex
       });
     },
     changeCourseIndex(courseIndex: number) {
@@ -168,7 +168,7 @@ export default Vue.extend({
     addCourseStructureToTestingEnvironment() {
       const result = areExampleCorrect({
         validationForm: this.validationForm[this.courseIndex],
-        target: ValidationTarget.TEST,
+        target: ValidationTarget.TEST
       });
       console.log('result', result);
       if (!result.isCorrect)
@@ -193,10 +193,10 @@ export default Vue.extend({
         id: validation.id,
         targets: validation.targets,
         validationForm,
-        data: validation.data,
+        data: validation.data
       });
-    },
-  },
+    }
+  }
 });
 
 // function areExampleCorrect<T>(form: ValidationForm<T>, target: ValidationTarget): boolean {

@@ -21,7 +21,7 @@ export const i18n = new VueI18n({
   silentFallbackWarn: true,
   silentTranslationWarn: !IS_DEV,
   formatFallbackMessages: true,
-  messages,
+  messages
 });
 
 function updateLanguage(lang: string): string | null {

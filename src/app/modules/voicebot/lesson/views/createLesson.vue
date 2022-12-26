@@ -42,7 +42,7 @@
       :buttons-text="buttonsText"
     ></fixed-button>
     <div class="d-flex justify-center mb-10 mt-5">
-      <v-btn :disabled="false" color="success" @click="addSentence()"> {{ $t('voicebot.buttons.addExample') }} </v-btn>
+      <v-btn :disabled="false" color="success" @click="addSentence()"> {{ $t('buttons.addExample') }} </v-btn>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default Vue.extend({
   components: {
     BasicInformation,
     TheSentence,
-    FixedButton,
+    FixedButton
   },
   data: () => {
     return {
@@ -82,16 +82,16 @@ export default Vue.extend({
       descriptionFieldsValidationId: uuid(),
       buttonsText: {
         save: translate('save'),
-        test: translate('voicebot.buttons.addLessonToTest'),
-        production: translate('voicebot.buttons.addLessonToProd'),
-      } as VoicebotButtonsText,
+        test: translate('buttons.addLessonToTest'),
+        production: translate('buttons.addLessonToProd')
+      } as VoicebotButtonsText
     };
   },
   computed: {
     ...mapGetters({
       lesson: lessonGetters.getLessonOnEdit,
-      getNumberOfSentences: lessonGetters.getNumberOfSentences,
-    }),
+      getNumberOfSentences: lessonGetters.getNumberOfSentences
+    })
   },
   watch: {
     '$route.query': {
@@ -111,8 +111,8 @@ export default Vue.extend({
             this.isLessonFetched = true;
           });
         }
-      },
-    },
+      }
+    }
   },
   created() {
     this.createNewLesson();
@@ -132,14 +132,14 @@ export default Vue.extend({
       addSentenceExample: lessonActions.addSentenceExample,
       savePicture: lessonActions.savePicture,
       removePicture: lessonActions.removePicture,
-      cleanLesson: lessonActions.cleanLesson,
+      cleanLesson: lessonActions.cleanLesson
     }),
     validation(validation: { id: string; data: FormGroup<LessonExercisesModel>; targets: ValidationTarget[] }) {
       fillUpValidationForm({
         id: validation.id,
         targets: validation.targets,
         validationForm: this.validationForm,
-        data: validation.data,
+        data: validation.data
       });
       console.log('validationForm', this.validationForm);
     },
@@ -156,7 +156,7 @@ export default Vue.extend({
 
       this.removeSentenceExample({
         sentenceIndex: data.sentenceIndex,
-        sentenceExampleIndex: data.sentenceExampleIndex,
+        sentenceExampleIndex: data.sentenceExampleIndex
       });
     },
     saveLesson() {
@@ -172,8 +172,8 @@ export default Vue.extend({
       this.isLessonFetched = false;
       this.validationForm = {} as ValidationForm<LessonExercisesModel>;
       this.cleanLesson();
-    },
-  },
+    }
+  }
 });
 </script>
 

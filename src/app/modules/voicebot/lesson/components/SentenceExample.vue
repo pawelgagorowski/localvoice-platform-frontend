@@ -1,16 +1,16 @@
 <template>
   <v-col cols="12" class="offset-md-1">
     <base-card>
-      <v-card-title class="pb-0">{{ $t('voicebot.labels.exampleForSentence', { sentence }) }}</v-card-title>
+      <v-card-title class="pb-0">{{ $t('labels.exampleForSentence', { sentence }) }}</v-card-title>
       <v-btn class="ml-n16" color="primary" style="margin-top: 80px" absolute dark small fab d-inline>
         <v-icon>{{ index }}</v-icon>
       </v-btn>
       <v-card-text>
         <form-control-state v-slot:default="{ message }" :errors="form.errors.example">
           <v-text-field
-            :hint="$t('voicebot.labels.hintForSentenceExample')"
-            :label="$t('voicebot.labels.sentenceExample')"
-            :placeholder="$t('voicebot.labels.sentenceExamplePlaceholder')"
+            :hint="$t('labels.hintForSentenceExample')"
+            :label="$t('labels.sentenceExample')"
+            :placeholder="$t('labels.sentenceExamplePlaceholder')"
             :value="sentenceExample.example"
             :error-messages="message"
             @input="
@@ -18,16 +18,16 @@
                 sentenceIndex,
                 sentenceExampleIndex,
                 sentenceExampleStructure: {
-                  example: $event,
-                },
+                  example: $event
+                }
               })
             "
           />
         </form-control-state>
         <form-control-state v-slot:default="{ message }" :errors="form.errors.translatedExample">
           <v-text-field
-            :label="$t('voicebot.labels.translatedSentenceExample')"
-            :placeholder="$t('voicebot.labels.translatedSentenceExamplePlaceholder')"
+            :label="$t('labels.translatedSentenceExample')"
+            :placeholder="$t('labels.translatedSentenceExamplePlaceholder')"
             :value="sentenceExample.translatedExample"
             :error-messages="message"
             @input="
@@ -35,8 +35,8 @@
                 sentenceIndex,
                 sentenceExampleIndex,
                 sentenceExampleStructure: {
-                  translatedExample: $event,
-                },
+                  translatedExample: $event
+                }
               })
             "
           />
@@ -54,7 +54,7 @@
           >
             <v-file-input
               v-if="sentenceExample"
-              :label="$t('voicebot.labels.fileInput')"
+              :label="$t('labels.fileInput')"
               flat
               :value="blobFile"
               :error-messages="message"
@@ -71,10 +71,10 @@
           @click="
             $emit('insertSentenceExample', {
               sentenceIndex,
-              sentenceExampleIndex,
+              sentenceExampleIndex
             })
           "
-          ><v-icon left> mdi-comment-plus-outline </v-icon>{{ $t('voicebot.buttons.addAnotherSentenceExample') }}</v-btn
+          ><v-icon left> mdi-comment-plus-outline </v-icon>{{ $t('buttons.addAnotherSentenceExample') }}</v-btn
         >
         <v-btn
           :disabled="false"
@@ -84,11 +84,11 @@
             $emit('removeSentenceExample', {
               sentenceIndex,
               sentenceExampleIndex,
-              validationId,
+              validationId
             })
           "
         >
-          <v-icon left> mdi-comment-remove-outline </v-icon>{{ $t('voicebot.buttons.removeSentenceExample') }}
+          <v-icon left> mdi-comment-remove-outline </v-icon>{{ $t('buttons.removeSentenceExample') }}
         </v-btn>
       </v-card-text>
     </base-card>
@@ -98,13 +98,13 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { FormControlState } from '~app/shared/form';
+import { ValidationTarget } from '~app/shared';
 import SentenceExampleExercisesModel from '../models/sentenceExampleExerciseModel';
 import { createSentenceExampleForm } from '../validation/forms';
-import { ValidationTarget } from '~app/shared';
 
 export default Vue.extend({
   components: {
-    FormControlState,
+    FormControlState
   },
   props: {
     sentenceExample: {
@@ -112,21 +112,21 @@ export default Vue.extend({
       default: {
         example: '',
         translatedExample: '',
-        imageSrc: '',
-      },
+        imageSrc: ''
+      }
     },
     sentenceExampleIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     sentenceIndex: {
       type: Number,
-      default: 0,
+      default: 0
     },
     sentence: {
       type: String,
-      default: '',
-    },
+      default: ''
+    }
   },
   data: () => {
     const form = createSentenceExampleForm();
@@ -135,7 +135,7 @@ export default Vue.extend({
       transaltedExample: '',
       validationId: '',
       index: 0,
-      form,
+      form
     };
   },
   watch: {
@@ -143,7 +143,7 @@ export default Vue.extend({
       handler(sentenceExampleIndex) {
         this.index = sentenceExampleIndex + 1;
       },
-      immediate: true,
+      immediate: true
     },
     sentenceExample: {
       handler(sentenceExample) {
@@ -153,18 +153,18 @@ export default Vue.extend({
         this.$emit('validation', {
           data: this.form,
           id: this.validationId,
-          targets: [ValidationTarget.TEST],
+          targets: [ValidationTarget.TEST]
         });
       },
       immediate: true,
-      deep: true,
+      deep: true
     },
     validationId: {
       handler(validationId) {
         this.$emit('sentenceExampleValidationId', validationId);
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     updatePicture($event: File | null = null, imageSrc: string) {
@@ -180,10 +180,10 @@ export default Vue.extend({
         sentenceIndex: this.sentenceIndex,
         sentenceExampleIndex: this.sentenceExampleIndex,
         sentenceExampleStructure: {
-          imageSrc,
-        },
+          imageSrc
+        }
       });
-    },
-  },
+    }
+  }
 });
 </script>

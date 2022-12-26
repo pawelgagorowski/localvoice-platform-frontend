@@ -5,14 +5,14 @@
         <v-text-field
           :value="course.subject"
           :error-messages="message"
-          :label="$t('voicebot.labels.orginalCourseName')"
-          :hint="$t('voicebot.labels.orginalCourseNameHint')"
-          :placeholder="$t('voicebot.labels.orginalCourseNamePlaceholder')"
+          :label="$t('labels.orginalCourseName')"
+          :hint="$t('labels.orginalCourseNameHint')"
+          :placeholder="$t('labels.orginalCourseNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               subject: $event,
               courseIndex,
-              operation: 'course',
+              operation: 'course'
             })
           "
         ></v-text-field>
@@ -21,14 +21,14 @@
         <v-text-field
           :value="course.translatedSubject"
           :error-messages="message"
-          :hint="$t('voicebot.labels.translatedCourseHint')"
-          :label="$t('voicebot.labels.translatedCourseName')"
-          :placeholder="$t('voicebot.labels.translatedCourseNamePlaceholder')"
+          :hint="$t('labels.translatedCourseHint')"
+          :label="$t('labels.translatedCourseName')"
+          :placeholder="$t('labels.translatedCourseNamePlaceholder')"
           @input="
             $emit('updateStructure', {
               translatedSubject: $event,
               courseIndex,
-              operation: 'course',
+              operation: 'course'
             })
           "
         ></v-text-field>
@@ -45,7 +45,7 @@
         :errors="form.errors.imageSrc"
       >
         <v-file-input
-          :label="$t('voicebot.labels.courseFileInput')"
+          :label="$t('labels.courseFileInput')"
           :value="blobFile"
           :error-messages="message"
           @change="updatePicture($event, course.imageSrc)"
@@ -58,29 +58,29 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { FormControlState } from '~app/shared/form';
+import { ValidationTarget } from '~app/shared/types';
 import { CourseStructureModel } from '../models/courseStructure';
 import { createCourseForm, createNumberOfCategoriesForm } from '../validation/forms';
 import { FormValidationMixin } from '../validation/formValidation.mixin';
-import { ValidationTarget } from '~app/shared/types';
 
 export default Vue.extend({
   components: {
-    FormControlState,
+    FormControlState
   },
   mixins: [FormValidationMixin],
   props: {
     course: {
       type: Object as PropType<CourseStructureModel>,
-      required: true,
+      required: true
     },
     courseIndex: {
       type: Number,
-      required: true,
+      required: true
     },
     numberOfCategories: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => {
     const form = createCourseForm();
@@ -89,7 +89,7 @@ export default Vue.extend({
       form,
       numberOfCategoriesForm,
       validationId: '',
-      numberOfCategoriesValidationId: 'numberOfCategories',
+      numberOfCategoriesValidationId: 'numberOfCategories'
     };
   },
   watch: {
@@ -102,9 +102,9 @@ export default Vue.extend({
           data: this.form,
           courseIndex: this.courseIndex,
           id: this.validationId,
-          targets: [ValidationTarget.TEST],
+          targets: [ValidationTarget.TEST]
         });
-      },
+      }
     },
     numberOfCategories: {
       immediate: true,
@@ -114,10 +114,10 @@ export default Vue.extend({
           data: this.numberOfCategoriesForm,
           courseIndex: this.courseIndex,
           id: this.numberOfCategoriesValidationId,
-          targets: [ValidationTarget.TEST],
+          targets: [ValidationTarget.TEST]
         });
-      },
-    },
+      }
+    }
   },
   methods: {
     updatePicture($event: File | null = null, imageSrc: string) {
@@ -131,9 +131,9 @@ export default Vue.extend({
         file: $event,
         courseIndex: this.courseIndex,
         operation: 'course',
-        imageSrc,
+        imageSrc
       });
-    },
-  },
+    }
+  }
 });
 </script>

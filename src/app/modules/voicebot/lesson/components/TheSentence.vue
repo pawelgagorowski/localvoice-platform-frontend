@@ -1,7 +1,7 @@
 <template>
   <v-col cols="10" class="offset-md-1">
     <base-card>
-      <v-card-title class="pb-0">{{ $t('voicebot.labels.sentenceTitle') }}</v-card-title>
+      <v-card-title class="pb-0">{{ $t('labels.sentenceTitle') }}</v-card-title>
       <v-btn class="ml-n16 mt-10" color="primary" absolute dark small fab d-inline>
         <v-icon>{{ index }}</v-icon>
       </v-btn>
@@ -10,22 +10,22 @@
           <v-text-field
             :counter="50"
             :error-messages="message"
-            :label="$t('voicebot.labels.sentenceToLearn')"
-            :placeholder="$t('voicebot.labels.sentencePlaceholder')"
+            :label="$t('labels.sentenceToLearn')"
+            :placeholder="$t('labels.sentencePlaceholder')"
             :value="sentenceExercise.sentence"
             @input="
               $emit('updateSentence', {
                 sentence: $event,
-                sentenceIndex,
+                sentenceIndex
               })
             "
           />
         </form-control-state>
         <v-btn :disabled="false" color="success" class="mr-4" @click="$emit('addSentenceExample', sentenceIndex)">
-          {{ $t('voicebot.buttons.addSentenceExample') }}
+          {{ $t('buttons.addSentenceExample') }}
         </v-btn>
         <v-btn :disabled="false" color="primary" class="mr-4" @click="$emit('insertSentence', sentenceIndex)">
-          {{ $t('voicebot.buttons.addExample') }}
+          {{ $t('buttons.addExample') }}
         </v-btn>
         <v-btn
           :disabled="false"
@@ -35,7 +35,7 @@
           @click="
             $emit('removeSentence', {
               sentenceIndex,
-              validationIds: [...sentenceExampleValidationIds, validationId],
+              validationIds: [...sentenceExampleValidationIds, validationId]
             })
           "
         >
@@ -67,28 +67,28 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { FormControlState } from '~app/shared/form';
+import { ValidationTarget } from '~app/shared';
 import SentenceExample from './SentenceExample.vue';
 import SentenceExercisesModel from '../models/sentenceExerciseModel';
 import { createSentenceForm } from '../validation/forms';
-import { ValidationTarget } from '~app/shared';
 
 export default Vue.extend({
   components: {
     SentenceExample,
-    FormControlState,
+    FormControlState
   },
   props: {
     sentenceExercise: {
       type: Object as PropType<SentenceExercisesModel>,
       default: {
         sentence: '',
-        sentenceExample: [],
-      },
+        sentenceExample: []
+      }
     },
     sentenceIndex: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   data: () => {
     const form = createSentenceForm();
@@ -96,7 +96,7 @@ export default Vue.extend({
       index: 0,
       validationId: '',
       sentenceExampleValidationIds: [] as string[],
-      form,
+      form
     };
   },
   watch: {
@@ -104,7 +104,7 @@ export default Vue.extend({
       handler(sentenceIndex) {
         this.index = sentenceIndex + 1;
       },
-      immediate: true,
+      immediate: true
     },
     sentenceExercise: {
       handler(sentenceExercise) {
@@ -114,17 +114,17 @@ export default Vue.extend({
         this.$emit('validation', {
           data: this.form,
           id: this.validationId,
-          targets: [ValidationTarget.TEST],
+          targets: [ValidationTarget.TEST]
         });
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
   methods: {
     setSentenceExampleValidationIds(validationId: string) {
       this.sentenceExampleValidationIds.push(validationId);
-    },
-  },
+    }
+  }
 });
 </script>

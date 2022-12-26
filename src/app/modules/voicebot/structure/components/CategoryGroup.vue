@@ -42,7 +42,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </template>
-        <span>{{ $t('voicebot.buttons.addCategory') }}</span>
+        <span>{{ $t('buttons.addCategory') }}</span>
       </v-tooltip>
     </v-col>
   </v-row>
@@ -51,36 +51,36 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { mapGetters } from 'vuex';
-import TheCategory from './TheCategory.vue';
 import { layoutGetters } from '~app/layout/store';
 import { LayoutMode } from '~app/layout/types';
+import TheCategory from './TheCategory.vue';
 import { CourseStructureModel } from '../models/courseStructure';
 
 export default Vue.extend({
   metaInfo: {
-    title: 'Structure',
+    title: 'Structure'
   },
   name: 'VoicebotStructure',
   components: {
-    TheCategory,
+    TheCategory
   },
   props: {
     course: {
       type: Object as PropType<CourseStructureModel>,
-      required: true,
+      required: true
     },
     courseIndex: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
   data: () => ({
     loading: false,
-    maxAmountOfCategories: 12,
+    maxAmountOfCategories: 12
   }),
   computed: {
     ...mapGetters({
-      layoutState: layoutGetters.getState,
+      layoutState: layoutGetters.getState
     }),
     isMaxCategories() {
       if (this.course.categories) return this.course.categories.length >= this.maxAmountOfCategories;
@@ -89,8 +89,8 @@ export default Vue.extend({
     backgroundForSlides() {
       const backgroundColor = this.layoutState.layoutMode === LayoutMode.WHITE ? '#fff' : '#242939';
       return backgroundColor;
-    },
-  },
+    }
+  }
 });
 </script>
 

@@ -22,9 +22,9 @@ type NewType = string;
 
 export default Vue.extend({
   props: {
-    diameter: { type: Number, default: SPINNER_BASE_SIZE_REDUCED, validator: (v) => v > 0 },
+    diameter: { type: Number, default: SPINNER_BASE_SIZE_REDUCED, validator: (v: number) => v > 0 },
     strokeWidth: { type: Number },
-    rounded: { type: Boolean, default: false },
+    rounded: { type: Boolean, default: false }
   },
   computed: {
     circleRadius(): number {
@@ -57,9 +57,9 @@ export default Vue.extend({
         strokeDashoffset: `${this.strokeDashOffset}px`,
         strokeDasharray: `${this.strokeCircumference}px`,
         strokeWidth: `${this.strokeWidth}%`,
-        strokeLinecap: this.rounded ? 'round' : 'butt',
+        strokeLinecap: this.rounded ? 'round' : 'butt'
       };
-    },
+    }
   },
 
   mounted(): void {
@@ -84,8 +84,8 @@ export default Vue.extend({
       styleTag.textContent = getAnimationStyles(this.strokeCircumference, this.diameter);
       styleRoot.appendChild(styleTag);
       diameters.add(this.diameter);
-    },
-  },
+    }
+  }
 });
 
 const ANIMATION_TEMPLATE = `
