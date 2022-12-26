@@ -62,7 +62,7 @@ export class AuthService {
       }
 
       this.token = this.api
-        .post<AuthToken>('/api/authentication/refresh', {
+        .post<AuthToken>('/api/test/authentication/refresh', {
           userId: token.userId,
           refreshToken: token.refreshToken
         })

@@ -12,34 +12,34 @@ export const voicebotRoutes: RouteConfig[] = [
         path: 'list-of-lessons',
         name: 'list-of-lessons',
         meta: {
-          breadcrumb: [{ name: 'Voicebot' }, { name: 'List of Lessons' }],
+          breadcrumb: [{ name: 'Voicebot' }, { name: 'List of Lessons' }]
         },
-        component: () => import(/* webpackChunkName: "listOfLessons" */ './lessonList/views/lessonList.vue'),
+        component: () => import(/* webpackChunkName: "listOfLessons" */ './lessonList/views/lessonList.vue')
       },
       {
         path: 'create-lesson',
         name: 'create-lesson',
         meta: {
-          breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Lesson' }],
+          breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Lesson' }]
         },
-        component: () => import(/* webpackChunkName: "createLesson" */ './lesson/views/createLesson.vue'),
+        component: () => import(/* webpackChunkName: "createLesson" */ './lesson/views/createLesson.vue')
       },
       {
         path: 'create-course',
         name: 'create-course',
         meta: {
-          breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Course' }],
+          breadcrumb: [{ name: 'Voicebot' }, { name: 'Create Course' }]
         },
-        component: () => import(/* webpackChunkName: "createCourse" */ './structure/views/structure.vue'),
+        component: () => import(/* webpackChunkName: "createCourse" */ './structure/views/structure.vue')
       },
       {
         path: 'monthly-challenge',
         name: 'monthly-challenge',
         meta: {
-          breadcrumb: [{ name: 'Voicebot' }, { name: 'Monthly Challenge' }],
+          breadcrumb: [{ name: 'Voicebot' }, { name: 'Monthly Challenge' }]
         },
-        component: () => import(/* webpackChunkName: "listOfLesson" */ './lessonList/views/lessonList.vue'),
-      },
-    ],
-  },
+        component: () => import(/* webpackChunkName: "listOfLesson" */ './lessonList/views/lessonList.vue')
+      }
+    ]
+  }
 ];

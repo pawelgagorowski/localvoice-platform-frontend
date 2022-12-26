@@ -16,48 +16,48 @@ export const defaultMessages: ErrorTranscription = {
   // NOT_UNIQUE: i18n.t('Value must be unique'),
 
   required: () => ({
-    fieldMessage: translate('voicebot.fieldValidators.required'),
-    toastMessage: translate('voicebot.toastValidators.required'),
+    fieldMessage: translate('fieldValidators.required'),
+    toastMessage: translate('toastValidators.required')
   }),
   minLength: (requiredLength?: string) => ({
-    fieldMessage: translate('voicebot.fieldValidators.minLength', { requiredLength }),
-    toastMessage: translate('voicebot.toastValidators.minLength', { requiredLength }),
+    fieldMessage: translate('fieldValidators.minLength', { requiredLength }),
+    toastMessage: translate('toastValidators.minLength', { requiredLength })
   }),
   minLengthOfSentence: (requiredLength?: string) => ({
-    fieldMessage: translate('voicebot.fieldValidators.minLengthOfSentence', { requiredLength }),
-    toastMessage: translate('voicebot.toastValidators.minLengthOfSentence', { requiredLength }),
+    fieldMessage: translate('fieldValidators.minLengthOfSentence', { requiredLength }),
+    toastMessage: translate('toastValidators.minLengthOfSentence', { requiredLength })
   }),
   minLengthOfSentenceExample: (requiredLength?: string) => ({
     fieldMessage: ``,
-    toastMessage: `Fill up minimum ${requiredLength} sentences example per sentence`,
+    toastMessage: `Fill up minimum ${requiredLength} sentences example per sentence`
   }),
   matchWith: (name?: string) => ({
-    fieldMessage: translate('voicebot.fieldValidators.matchWith', { name }),
-    toastMessage: translate('voicebot.toastValidators.matchWith', { name }),
+    fieldMessage: translate('fieldValidators.matchWith', { name }),
+    toastMessage: translate('toastValidators.matchWith', { name })
   }),
   minNumberOfSentences: (min?: string) => ({
     fieldMessage: '',
-    toastMessage: translate('voicebot.toastValidators.minNumberOfSentences', { min }),
+    toastMessage: translate('toastValidators.minNumberOfSentences', { min })
   }),
   minNumberOfCategories: (min?: string) => ({
     fieldMessage: '',
-    toastMessage: translate('voicebot.toastValidators.minNumberOfCategories', { min }),
+    toastMessage: translate('toastValidators.minNumberOfCategories', { min })
   }),
   maxNumberOfCategories: (max?: string) => ({
     fieldMessage: '',
-    toastMessage: translate('voicebot.toastValidators.maxNumberOfCategories', { max }),
+    toastMessage: translate('toastValidators.maxNumberOfCategories', { max })
   }),
   minNumberOfLessons: (min?: string) => ({
     fieldMessage: '',
-    toastMessage: translate('voicebot.toastValidators.maxNumberOfCategories', { min }),
+    toastMessage: translate('toastValidators.maxNumberOfCategories', { min })
   }),
   maxNumberOfLessons: (max?: string) => ({
     fieldMessage: '',
-    toastMessage: translate('voicebot.toastValidators.maxNumberOfCategories', { max }),
+    toastMessage: translate('toastValidators.maxNumberOfCategories', { max })
   }),
   email: () => ({
-    fieldMessage: translate('voicebot.fieldValidators.email'),
-    toastMessage: translate('voicebot.toastValidators.email'),
+    fieldMessage: translate('fieldValidators.email'),
+    toastMessage: translate('toastValidators.email')
   }),
   // min: 'The value must be greater than or equal {min}',
   // max: 'The value must be less than or equal {max}',
@@ -68,12 +68,12 @@ export const defaultMessages: ErrorTranscription = {
   // NOT_UNIQUE: 'Value must be unique',
   includeCourseWord: () => ({
     fieldMessage: '`The input must include "course" word',
-    toastMessage: 'Fill up fields with some special words',
+    toastMessage: 'Fill up fields with some special words'
   }),
   includeCategoryWord: () => ({
     fieldMessage: 'Value must include "category" word',
-    toastMessage: 'Fill up fields with some special words',
-  }),
+    toastMessage: 'Fill up fields with some special words'
+  })
 };
 
 const isEmpty = (value: any): boolean => value == null || value.length === 0;
@@ -93,17 +93,20 @@ export const includeCategoryWord: ValidatorFn = (value: string) => {
 // export const requiredIf: ValidatorFactory = (condition: (data: any) => boolean) => (value: any, data: any) =>
 //   condition(data) ? required(value) : null;
 
-export const matchWith: ValidatorFactory<string> = (name: string, type = 'matchWith') => (value: any, data: any) => {
-  if (isEmpty(value)) {
-    return null;
-  }
+export const matchWith: ValidatorFactory<string> =
+  (name: string, type = 'matchWith') =>
+  (value: any, data: any) => {
+    if (isEmpty(value)) {
+      return null;
+    }
 
-  return data[name] === value ? null : { type, arg: name };
-};
+    return data[name] === value ? null : { type, arg: name };
+  };
 
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 // eslint-disable-next-line no-useless-escape
-const EMAIL_REGEXP = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const EMAIL_REGEXP =
+  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export const email: ValidatorFn = (value: string) => {
   if (isEmpty(value)) {

@@ -21,7 +21,7 @@
       <v-list dense nav dark>
         <v-list-item class="px-0">
           <!-- <v-list-item-avatar> -->
-          <v-img contain src="@/assets/localvoice.png" height="600px" />
+          <v-img contain src="@/assets/localvoice.png" height="100px" />
           <!-- </v-list-item-avatar> -->
 
           <v-list-item-title class="text-18 text-uppercase text-default">Localvoice</v-list-item-title>
@@ -65,20 +65,20 @@ export default {
       color: LayoutMode.DARK,
       dark: true,
       items,
-      opacity: 0.4,
+      opacity: 0.4
     };
   },
   computed: {
     ...mapGetters({
       layoutState: layoutGetters.getState,
-      sidebarItems: navigationGetters.getOrderedSidebarItems,
-    }),
+      sidebarItems: navigationGetters.getOrderedSidebarItems
+    })
   },
   methods: {
     ...mapActions({
-      changeSidebarSize: layoutActions.changeSidebarSize,
-    }),
-  },
+      changeSidebarSize: layoutActions.changeSidebarSize
+    })
+  }
 };
 </script>
 

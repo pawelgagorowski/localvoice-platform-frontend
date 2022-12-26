@@ -1,7 +1,7 @@
 import pl from './pl-PL';
 
 const messages = {
-  pl,
+  pl
 };
 
 export default messages;

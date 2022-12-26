@@ -11,7 +11,7 @@ import { LayoutLoader } from '@/app/layout';
 
 export default {
   components: {
-    LayoutLoader,
-  },
+    LayoutLoader
+  }
 };
 </script>

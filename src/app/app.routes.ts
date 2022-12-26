@@ -20,14 +20,14 @@ export const appRoutes: RouteConfig[] = [
             path: 'list-of-lessons',
             name: 'list-of-lessons',
             meta: {
-              breadcrumb: [{ name: 'Chatbot' }, { name: 'List of Lessons' }],
+              breadcrumb: [{ name: 'Chatbot' }, { name: 'List of Lessons' }]
             },
             component: () =>
-              import(/* webpackChunkName: "listOfLesson" */ '~app/modules/voicebot/lessonList/views/lessonList.vue'),
-          },
-        ],
-      },
-    ],
+              import(/* webpackChunkName: "listOfLesson" */ '~app/modules/voicebot/lessonList/views/lessonList.vue')
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/session',
@@ -38,18 +38,18 @@ export const appRoutes: RouteConfig[] = [
       {
         path: 'sign-in',
         name: 'sign-in',
-        component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue'),
-      },
-    ],
+        component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue')
+      }
+    ]
   },
   {
     path: '/sign-in',
     name: 'sign-in',
-    component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue'),
+    component: () => import(/* webpackChunkName: "session" */ '~app/modules/session/views/SignIn.vue')
   },
   {
     path: '*',
     name: 'not-found',
-    component: NotFound,
-  },
+    component: NotFound
+  }
 ];

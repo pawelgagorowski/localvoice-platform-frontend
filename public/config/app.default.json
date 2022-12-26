@@ -1,11 +1,11 @@
 {
-    "apiUrl": "http://localhost:3000",
-    "environment": "test",
-    "backendEnvironment": "test",
-    "features": {
-      "voicebot": true,
-      "chatbot": true,
-      "connectedApps": false,
-      "permissions": false
+  "apiUrl": "http://localhost:3000/test",
+  "environment": "test",
+  "backendEnvironment": "test",
+  "features": {
+    "voicebot": true,
+    "chatbot": true,
+    "connectedApps": false,
+    "permissions": false
   }
 }

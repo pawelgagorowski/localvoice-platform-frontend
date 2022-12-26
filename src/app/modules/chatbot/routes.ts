@@ -12,10 +12,10 @@ export const chatbotRoutes: RouteConfig[] = [
         path: 'list-of-lessons',
         name: 'list-of-lessons',
         meta: {
-          breadcrumb: [{ name: 'Chatbot' }, { name: 'List of Lessons' }],
+          breadcrumb: [{ name: 'Chatbot' }, { name: 'List of Lessons' }]
         },
-        component: () => import(/* webpackChunkName: "listOfLessons" */ './lessonList/views/lessonList.vue'),
-      },
-    ],
-  },
+        component: () => import(/* webpackChunkName: "listOfLessons" */ './lessonList/views/lessonList.vue')
+      }
+    ]
+  }
 ];

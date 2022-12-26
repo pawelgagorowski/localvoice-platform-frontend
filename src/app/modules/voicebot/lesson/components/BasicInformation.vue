@@ -5,19 +5,19 @@
         <div v-if="isLessonFetched" class="d-flex justify-space-between flex-wrap">
           <v-btn class="ma-2" dark color="success" @click="$emit('createNewLesson')">
             <v-icon>mdi-plus</v-icon>
-            {{ $t('voicebot.buttons.createLesson') }}
+            {{ $t('buttons.createLesson') }}
           </v-btn>
         </div>
         <div v-else class="d-flex justify-space-between flex-wrap">
           <v-btn class="ma-2" dark color="success">
             <router-link
               :to="{
-                name: 'list-of-lessons',
+                name: 'list-of-lessons'
               }"
               style="text-decoration: none; color: inherit"
             >
               <v-icon>mdi-pencil</v-icon>
-              {{ $t('voicebot.buttons.editLesson') }}
+              {{ $t('buttons.editLesson') }}
             </router-link>
           </v-btn>
         </div>
@@ -36,7 +36,7 @@
             v-model="selectedCourseName"
             :error-messages="message"
             :items="courseNames"
-            :label="$t('voicebot.labels.courseName')"
+            :label="$t('labels.courseName')"
             @change="changeCourseSelectField($event)"
           />
         </form-control-state>
@@ -45,7 +45,7 @@
             v-model="selectedCategoryName"
             :error-messages="message"
             :items="categoryNames"
-            :label="$t('voicebot.labels.categoryName')"
+            :label="$t('labels.categoryName')"
             @change="changeCategorySelectField($event)"
           />
         </form-control-state>
@@ -54,7 +54,7 @@
             v-model="selectedLessonName"
             :error-messages="message"
             :items="lessonNames"
-            :label="$t('voicebot.labels.lessonName')"
+            :label="$t('labels.lessonName')"
             @change="changeLessonSelectField($event)"
           />
         </form-control-state>
@@ -65,7 +65,7 @@
             :value="lessonDescription"
             clear-icon
             hint="To musi być wyrażenie składające się z kilku słów"
-            :label="$t('voicebot.labels.lessonDescription')"
+            :label="$t('labels.lessonDescription')"
             @input="$emit('updateLessonDescription', $event)"
           />
         </form-control-state>
@@ -79,7 +79,7 @@
             :value="translatedLessonDescription"
             clear-icon
             hint="To musi być wyrażenie składające się z kilku słów"
-            :label="$t('voicebot.labels.translatedLessonDescription')"
+            :label="$t('labels.translatedLessonDescription')"
             @input="$emit('updateTranslatedLessonDescription', $event)"
           />
         </form-control-state>
@@ -102,64 +102,64 @@ import { LessonBasicInformation, LessonDescription } from '../types';
 export default Vue.extend({
   components: {
     FormControlState,
-    FixedButton,
+    FixedButton
   },
   props: {
     isLessonFetched: {
-      type: Boolean,
+      type: Boolean
     },
     courseNameOnEdit: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: () => []
     },
     categoryNameOnEdit: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: () => []
     },
     lessonNameOnEdit: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: () => []
     },
     lessonDescription: {
       type: String,
-      default: () => '',
+      default: () => ''
     },
     translatedLessonDescription: {
       type: String,
-      default: () => '',
+      default: () => ''
     },
     selectedFieldsValidationId: {
       type: String,
-      default: () => '',
+      default: () => ''
     },
     descriptionFieldsValidationId: {
       type: String,
-      default: () => '',
+      default: () => ''
     },
     numberOfSentences: {
       type: Number,
-      default: 0,
+      default: 0
     },
     saveFn: {
       type: Function,
-      default: () => '',
+      default: () => ''
     },
     testFn: {
       type: Function,
-      default: () => '',
+      default: () => ''
     },
     prodFn: {
       type: Function,
-      default: () => '',
+      default: () => ''
     },
     buttonsText: {
       type: Object as PropType<VoicebotButtonsText>,
       default: () => ({
         save: '',
         test: '',
-        production: '',
-      }),
-    },
+        production: ''
+      })
+    }
   },
   data: () => {
     const basicInfoForm = createBasicInfoForm();
@@ -172,13 +172,13 @@ export default Vue.extend({
       lessonNames: [] as string[],
       selectedLessonName: '',
       basicInfoForm,
-      lessonDescriptionForm,
+      lessonDescriptionForm
     };
   },
   computed: {
     ...mapGetters({
-      linkedCoursesCategoriesAndLessons: voicebotGetters.getLinkedCoursesCategoriesAndLessons,
-    }),
+      linkedCoursesCategoriesAndLessons: voicebotGetters.getLinkedCoursesCategoriesAndLessons
+    })
   },
   watch: {
     lessonDescription: {
@@ -189,16 +189,16 @@ export default Vue.extend({
           {
             lessonDescription,
             translatedLessonDescription: this.translatedLessonDescription,
-            numberOfSentences: this.numberOfSentences,
+            numberOfSentences: this.numberOfSentences
           },
           {
             form: this.lessonDescriptionForm,
             instance: this,
             validationId: this.descriptionFieldsValidationId,
-            targets: [ValidationTarget.TEST],
+            targets: [ValidationTarget.TEST]
           }
         );
-      },
+      }
     },
     translatedLessonDescription: {
       immediate: true,
@@ -207,16 +207,16 @@ export default Vue.extend({
           {
             lessonDescription: this.lessonDescription,
             translatedLessonDescription,
-            numberOfSentences: this.numberOfSentences,
+            numberOfSentences: this.numberOfSentences
           },
           {
             form: this.lessonDescriptionForm,
             instance: this,
             validationId: this.descriptionFieldsValidationId,
-            targets: [ValidationTarget.TEST],
+            targets: [ValidationTarget.TEST]
           }
         );
-      },
+      }
     },
     numberOfSentences: {
       immediate: true,
@@ -225,16 +225,16 @@ export default Vue.extend({
           {
             lessonDescription: this.lessonDescription,
             translatedLessonDescription: this.translatedLessonDescription,
-            numberOfSentences,
+            numberOfSentences
           },
           {
             form: this.lessonDescriptionForm,
             instance: this,
             validationId: this.descriptionFieldsValidationId,
-            targets: [ValidationTarget.TEST],
+            targets: [ValidationTarget.TEST]
           }
         );
-      },
+      }
     },
     isLessonFetched: {
       immediate: true,
@@ -254,7 +254,7 @@ export default Vue.extend({
           this.categoryNames = [];
           this.lessonNames = [];
         }
-      },
+      }
     },
     selectedCourseName: {
       immediate: true,
@@ -264,16 +264,16 @@ export default Vue.extend({
           {
             selectedCourseName,
             selectedCategoryName: this.selectedCategoryName,
-            selectedLessonName: this.selectedLessonName,
+            selectedLessonName: this.selectedLessonName
           },
           {
             form: this.basicInfoForm,
             instance: this,
             validationId: this.selectedFieldsValidationId,
-            targets: [ValidationTarget.SAVE, ValidationTarget.TEST],
+            targets: [ValidationTarget.SAVE, ValidationTarget.TEST]
           }
         );
-      },
+      }
     },
     selectedCategoryName: {
       immediate: true,
@@ -283,16 +283,16 @@ export default Vue.extend({
           {
             selectedCourseName: this.selectedCourseName,
             selectedCategoryName,
-            selectedLessonName: this.selectedLessonName,
+            selectedLessonName: this.selectedLessonName
           },
           {
             form: this.basicInfoForm,
             instance: this,
             validationId: this.selectedFieldsValidationId,
-            targets: [ValidationTarget.SAVE, ValidationTarget.TEST],
+            targets: [ValidationTarget.SAVE, ValidationTarget.TEST]
           }
         );
-      },
+      }
     },
     selectedLessonName: {
       immediate: true,
@@ -302,17 +302,17 @@ export default Vue.extend({
           {
             selectedCourseName: this.selectedCourseName,
             selectedCategoryName: this.selectedCategoryName,
-            selectedLessonName,
+            selectedLessonName
           },
           {
             form: this.basicInfoForm,
             instance: this,
             validationId: this.selectedFieldsValidationId,
-            targets: [ValidationTarget.SAVE, ValidationTarget.TEST],
+            targets: [ValidationTarget.SAVE, ValidationTarget.TEST]
           }
         );
-      },
-    },
+      }
+    }
   },
   methods: {
     getCourseNames(): any {
@@ -333,7 +333,7 @@ export default Vue.extend({
     changeLessonSelectField(selectedLessonName: string) {
       this.selectedLessonName = selectedLessonName;
       this.$emit('lessonField', selectedLessonName);
-    },
-  },
+    }
+  }
 });
 </script>

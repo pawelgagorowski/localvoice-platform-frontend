@@ -1,7 +1,7 @@
 <template>
   <base-card class="px-5 pl-10">
     <v-card-title class="d-flex justify-space-between">
-      {{ $t('voicebot.buttons.course') }}
+      {{ $t('buttons.course') }}
       <div class="mt-4">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -9,7 +9,7 @@
               <v-icon>mdi-plus</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t('voicebot.buttons.addCourse') }}</span>
+          <span>{{ $t('buttons.addCourse') }}</span>
         </v-tooltip>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
@@ -21,14 +21,14 @@
               v-on="on"
               @click.stop="
                 $emit('removeCourse', {
-                  courseIndex,
+                  courseIndex
                 })
               "
             >
               <v-icon>mdi-minus</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t('voicebot.buttons.removeCourse') }}</span>
+          <span>{{ $t('buttons.removeCourse') }}</span>
         </v-tooltip>
       </div>
       <div>
@@ -63,25 +63,25 @@ import TheCourse from './TheCourse.vue';
 
 export default Vue.extend({
   components: {
-    TheCourse,
+    TheCourse
   },
   props: {
     courses: {
       type: Array as PropType<CourseStructureModel[]>,
       required: true,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   data() {
     return {
-      courseIndex: 0,
+      courseIndex: 0
     };
   },
   computed: {
     ...mapGetters({
       course: voicebotGetters.getCourse,
-      getNumberOfCategories: voicebotGetters.getNumberOfCategories,
-    }),
+      getNumberOfCategories: voicebotGetters.getNumberOfCategories
+    })
   },
   methods: {
     addCourseIndex() {
@@ -93,7 +93,7 @@ export default Vue.extend({
       if (this.courseIndex === 0) this.courseIndex = this.courses.length - 1;
       else this.courseIndex -= 1;
       this.$emit('courseIndex', this.courseIndex);
-    },
-  },
+    }
+  }
 });
 </script>
