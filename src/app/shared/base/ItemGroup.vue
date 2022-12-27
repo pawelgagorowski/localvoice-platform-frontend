@@ -42,22 +42,22 @@ export default {
         group: undefined,
         title: undefined,
         subHeader: undefined,
-        children: [],
-      }),
+        children: []
+      })
     },
     subGroup: {
       type: Boolean,
-      default: false,
+      default: false
     },
     text: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return {
       listModel: 0,
-      verticalSidebarDrawerColor: 'dark',
+      verticalSidebarDrawerColor: 'dark'
     };
   },
 
@@ -65,7 +65,7 @@ export default {
     children() {
       return this.item.children.map((item) => ({
         ...item,
-        to: !item.to ? undefined : `/app/${this.item.group}/${item.to}`,
+        to: !item.to ? undefined : `/app/${this.item.group}/${item.to}`
       }));
     },
     computedText() {
@@ -81,7 +81,7 @@ export default {
     },
     group() {
       return this.genGroup(this.item.children);
-    },
+    }
   },
 
   methods: {
@@ -102,7 +102,7 @@ export default {
           console.log(group);
         })
         .join('|');
-    },
-  },
+    }
+  }
 };
 </script>
